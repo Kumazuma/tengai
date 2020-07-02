@@ -74,3 +74,10 @@ public:
 	FlowerFireState(Character* pCharacter, float _interval);
 	ICharacterState* Update() override;
 };
+//방사형으로 조금씩 도는 총알을 쏘는 함수
+class FlowerCurvesFireState : public FireState
+{
+public:
+	FlowerCurvesFireState(Character* pCharacter, float _interval);
+	ICharacterState* Update() override;
+};

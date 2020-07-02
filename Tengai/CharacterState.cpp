@@ -148,11 +148,33 @@ ICharacterState* FlowerFireState::Update()
 	if (tick >= interval)
 	{
 		//사격
-		for (int i = 0; i < 45; ++i)
+		for (int i = 0; i < 22; ++i)
 		{
-			const float radian = 3.141592f * i * 8.f / 180;
+			const float radian = 3.141592f * i * 16.f / 180;
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
 			MetaBullet::Initialize(bullet, BulletType::_01, pCharacter->position, radian, false);
+		}
+		tick -= interval;
+	}
+	tick += TimeManager::DeltaTime();
+	return this;
+}
+
+FlowerCurvesFireState::FlowerCurvesFireState(Character* pCharacter, float _interval):
+	FireState{ pCharacter, _interval }
+{
+}
+
+ICharacterState* FlowerCurvesFireState::Update()
+{
+	if (tick >= interval)
+	{
+		//사격
+		for (int i = 0; i < 23; ++i)
+		{
+			const float radian = 3.141592f * i * 16.f / 180;
+			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
+			MetaBullet::Initialize(bullet, BulletType::_02, pCharacter->position, radian, false);
 		}
 		tick -= interval;
 	}

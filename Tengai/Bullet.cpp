@@ -4,13 +4,25 @@
 #include "Transform.h"
 #include <xmemory>
 #include"GameObject.h"
+RECT CreateSimpleCollider(const std::vector<RECT>& colliders)
+{
+	RECT res{ 0,0,0,0 };
+	for (const RECT& rc : colliders)
+	{
+		res.left = (res.left > rc.left) ? rc.left : res.left;
+		res.top = (res.top > rc.top) ? rc.top : res.top;
+		res.right = (res.right <  rc.right) ? rc.right : res.right;
+		res.bottom = (res.bottom < rc.bottom) ? rc.bottom : res.bottom;
+	}
+	return res;
+}
 Bullet::Bullet()
 {
 	type = ObjectType::BULLET;
 	Bind(EventId::COLLISION_OBJ, &Bullet::OnCollision);
 	simpleCollider = RECT{ -8,-8,8,8 };
-	
 }
+
 void Bullet::Update()
 {
 	if (position.x <= 0 || position.y <= 0)
@@ -58,7 +70,7 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 		return;
 	}
 	Bullet* pBullet = (Bullet*)_pObject;
-
+	auto uid = pBullet->uid;
 	switch (_type)
 	{
 	case BulletType::_01:
@@ -74,6 +86,7 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 		new(pBullet) Bullet03{};
 		break;
 	}
+	pBullet->uid = uid;
 	pBullet->position = pos;
 	pBullet->radian = rad;
 	pBullet->bulletType = _type;
@@ -107,7 +120,7 @@ void Bullet01::Update()
 }
 void Bullet02::Update()
 {
-	radian += 3.141592f * 2 / 180;
+	radian += 3.141592f * 0.5f / 180;
 	Move();
 	Bullet::Update();
 }
