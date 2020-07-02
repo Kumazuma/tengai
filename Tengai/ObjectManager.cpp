@@ -156,4 +156,7 @@ void ObjectManager::Render()
 	}
 
 	TimeManager::RenderFPS();
+	WCHAR wstr[8];
+	wsprintf(wstr, L"%d", pObjectManager->objectList.size());
+	RenderManager::DrawString(wstr, WINDOW_WIDTH - 100, 0);
 }
