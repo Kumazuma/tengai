@@ -136,7 +136,7 @@ void ObjectManager::LateUpdate()
 			{
 				if ((*citer)->handlerTable[(int)EventId::COLLISION_OBJ] != nullptr)
 				{
-					//EventManager::Broadcast<CollisionEvent>(citer, citer2);
+					EventManager::Broadcast<CollisionEvent>(*citer, *citer2);
 				}
 				if ((*citer2)->handlerTable[(int)EventId::COLLISION_OBJ] != nullptr)
 				{
