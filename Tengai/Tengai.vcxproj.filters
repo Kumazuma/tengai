@@ -16,6 +16,9 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{4a653b15-e17f-499b-9666-a8eb9561df78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DataStructure">
+      <UniqueIdentifier>{b350fded-6513-4600-8c0e-086395dda60b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPool.h">
+      <Filter>DataStructure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
