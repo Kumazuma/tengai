@@ -1,5 +1,6 @@
 #pragma once
-
+#include "event.h"
+#include "Define.h"
 enum class ObjectType
 {
 	NONE,
@@ -15,6 +16,8 @@ enum class ObjectType
 
 class GameObject
 {
+public:
+	typedef void(GameObject::* EventHandler)(const Event&);
 public:
 	GameObject();
 	virtual ~GameObject();
@@ -33,8 +36,24 @@ public:
 	ObjectType type = ObjectType::NONE;
 	bool isDead = false;
 	int uid = 0;
+	//이벤트 핸들링을 위한 핸들러 테이블과 그 함수들...
+	void HandleEvent(const Event& _event);
+	template<typename _DerivedClass, typename _EventT>
+	void Bind(EventId _id, void(_DerivedClass::* _handler)(const _EventT&));
+	void _Bind(EventId _id, EventHandler _handler);
+	EventHandler handlerTable[ENUM_MAX<EventId>()]{};
 };
-
+template<typename _DerivedClass, typename _EventT>
+void GameObject::Bind(EventId _id, void(_DerivedClass::* _handler)(const _EventT&))
+{
+	static_assert(
+		std::is_base_of<GameObject, _DerivedClass>::value == true,
+		"_DerivedClass is not base of GameObject");
+	static_assert(
+		std::is_base_of<Event, _EventT>::value == true,
+		"_EventT is not base of Event");
+	_Bind(_id, (EventHandler)_handler);
+}
 class ObjectCompare
 {
 public:

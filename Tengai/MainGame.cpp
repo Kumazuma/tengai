@@ -2,6 +2,7 @@
 #include "MainGame.h"
 #include "ObjectManager.h"
 #include "RenderManager.h"
+#include "EventManager.h"
 MainGame* pMainGame = nullptr;
 
 MainGame::MainGame()
@@ -30,9 +31,9 @@ void MainGame::Initialize()
 	ObjectManager::GetInstance();
 	RenderManager::GetInstance();
 	SceneManager::GetInstance();
-
+	EventManager::GetInstance();
 	ObjectManager::CreateObject(ObjectType::PLAYER);
-	
+	ObjectManager::CreateObject(ObjectType::MONSTER);
 }
 
 void MainGame::Release()
@@ -44,6 +45,7 @@ void MainGame::Run()
 	InputManager::Update();
 	ObjectManager::Update();
 	ObjectManager::LateUpdate();
+	EventManager::LateUpdate();
 	if (!TimeManager::SkipFrame())
 	{
 		RenderManager::Clear();

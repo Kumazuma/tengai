@@ -9,8 +9,8 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
-protected:
 	float speed = 0.f;
+protected:
 	int hp = 0;
 };
 

@@ -25,13 +25,8 @@ using namespace std;
 #include "ObjectManager.h"
 #include "RenderManager.h"
 #include "SceneManager.h"
-
+#include "EventManager.h"
 
 
 extern HWND g_hwnd;
 
-template<typename EnumT>
-constexpr int ENUM_MAX()
-{
-	return (int)EnumT::END;
-}
