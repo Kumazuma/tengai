@@ -8,6 +8,8 @@ Bullet::Bullet()
 {
 	type = ObjectType::BULLET;
 	Bind(EventId::COLLISION_OBJ, &Bullet::OnCollision);
+	simpleCollider = RECT{ -8,-8,8,8 };
+	
 }
 void Bullet::Update()
 {
@@ -82,18 +84,21 @@ Bullet01::Bullet01()
 {
 	hp = 999;
 	speed = 100;
+	colliders.push_back(RECT{ -3,-3,3, 3 });
 }
 
 Bullet02::Bullet02()
 {
 	hp = 999;
 	speed = 150;
+	colliders.push_back(RECT{ -3,-3,3, 3 });
 }
 
 Bullet03::Bullet03()
 {
 	hp = 999;
 	speed = 200;
+	colliders.push_back(RECT{ -6,-6,6,6 });
 }
 void Bullet01::Update()
 {
