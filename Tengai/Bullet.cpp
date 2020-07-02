@@ -4,18 +4,7 @@
 #include "Transform.h"
 #include <xmemory>
 #include"GameObject.h"
-RECT CreateSimpleCollider(const std::vector<RECT>& colliders)
-{
-	RECT res{ 0,0,0,0 };
-	for (const RECT& rc : colliders)
-	{
-		res.left = (res.left > rc.left) ? rc.left : res.left;
-		res.top = (res.top > rc.top) ? rc.top : res.top;
-		res.right = (res.right <  rc.right) ? rc.right : res.right;
-		res.bottom = (res.bottom < rc.bottom) ? rc.bottom : res.bottom;
-	}
-	return res;
-}
+
 Bullet::Bullet()
 {
 	type = ObjectType::BULLET;
@@ -55,7 +44,14 @@ void Bullet::OnCollision(const CollisionEvent& event)
 {
 	if (event.other->type != ObjectType::BULLET)
 	{
-		ObjectManager::DeleteObject(this);
+		if (event.other->type == ObjectType::MONSTER && this->isAlias == true)
+		{
+			ObjectManager::DeleteObject(this);
+		}
+		if (event.other->type == ObjectType::PLAYER && this->isAlias == false)
+		{
+			ObjectManager::DeleteObject(this);
+		}
 	}
 }
 

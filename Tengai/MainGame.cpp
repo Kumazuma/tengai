@@ -3,6 +3,7 @@
 #include "ObjectManager.h"
 #include "RenderManager.h"
 #include "EventManager.h"
+#include "Monster.h"
 MainGame* pMainGame = nullptr;
 
 MainGame::MainGame()
@@ -33,7 +34,12 @@ void MainGame::Initialize()
 	SceneManager::GetInstance();
 	EventManager::GetInstance();
 	ObjectManager::CreateObject(ObjectType::PLAYER);
-	ObjectManager::CreateObject(ObjectType::MONSTER);
+	Monster* pMonster = (Monster *)ObjectManager::CreateObject(ObjectType::MONSTER);
+	pMonster->Initialize(MonsterType::BOSS, { WINDOW_WIDTH, WINDOW_HEIGHT/2 });
+	pMonster = (Monster*)ObjectManager::CreateObject(ObjectType::MONSTER);
+	pMonster->Initialize(MonsterType::MOB02, { WINDOW_WIDTH, WINDOW_HEIGHT/ 3 });
+	pMonster = (Monster*)ObjectManager::CreateObject(ObjectType::MONSTER);
+	pMonster->Initialize(MonsterType::MOB01, { WINDOW_WIDTH, WINDOW_HEIGHT});
 }
 
 void MainGame::Release()

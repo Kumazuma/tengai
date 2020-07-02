@@ -68,3 +68,15 @@ public:
 		return obj1->uid < obj2->uid;
 	}
 };
+inline RECT CreateSimpleCollider(const std::vector<RECT>& colliders)
+{
+	RECT res{ 0,0,0,0 };
+	for (const RECT& rc : colliders)
+	{
+		res.left = (res.left > rc.left) ? rc.left : res.left;
+		res.top = (res.top > rc.top) ? rc.top : res.top;
+		res.right = (res.right < rc.right) ? rc.right : res.right;
+		res.bottom = (res.bottom < rc.bottom) ? rc.bottom : res.bottom;
+	}
+	return res;
+}
