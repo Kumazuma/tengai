@@ -32,5 +32,5 @@ void Monster::Update()
 
 void Monster::Render()
 {
-	RenderManager::DrawCircle({ (int)x, (int)y, (int)x + 20, (int)y + 20 });
+	RenderManager::DrawCircle({ (int)position.x, (int)position.y, (int)position.x + 20, (int)position.y + 20 });
 }

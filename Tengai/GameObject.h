@@ -1,6 +1,7 @@
 #pragma once
 #include "event.h"
 #include "Define.h"
+#include "Transform.h"
 enum class ObjectType
 {
 	NONE,
@@ -28,8 +29,7 @@ public:
 	virtual void OnCollision(const GameObject& _other) {};
 	void Die();
 
-	float x = 0.f;
-	float y = 0.f;
+	Transform position;
 	int width = 0;
 	int height = 0;
 	

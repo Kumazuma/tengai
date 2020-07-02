@@ -8,15 +8,15 @@ BezierCurveMoveToState::BezierCurveMoveToState(Character* const _pCharacter, con
 ICharacterState* BezierCurveMoveToState::Update()
 {
 
-	Transform _monsterPos{ pCharacter->x, pCharacter->y };
+	Transform _monsterPos{ pCharacter->position.x, pCharacter->position.y };
 	const float _speed = pCharacter->speed / 10.f;
 	for (int i = 0; i < 10; ++i)
 	{
 		//프로그래스가 1이 되거나, 목적지까지 도달했으면
 		if (progress >= 0.75f && (destination - _monsterPos).Length() < _speed)
 		{
-			pCharacter->x = destination.x;
-			pCharacter->y = destination.y;
+			pCharacter->position.x = destination.x;
+			pCharacter->position.y = destination.y;
 			//미리 지정된 다음 씬을 반환한다.
 			return pNextState;
 		}
@@ -38,8 +38,8 @@ ICharacterState* BezierCurveMoveToState::Update()
 		//해당 각도로 speed만큼 이동한다.
 		_monsterPos += (Transform)mat;
 	}
-	pCharacter->x = _monsterPos.x;
-	pCharacter->y = _monsterPos.y;
+	pCharacter->position.x = _monsterPos.x;
+	pCharacter->position.y = _monsterPos.y;
 
 	return this;
 }
@@ -88,15 +88,15 @@ LinearMoveToState::LinearMoveToState(Character* const _pCharecter, const Transfo
 
 ICharacterState* LinearMoveToState::Update()
 {
-	Transform _monsterPos{ pCharacter->x, pCharacter->y };
+	Transform _monsterPos{ pCharacter->position.x, pCharacter->position.y };
 	const float _speed = pCharacter->speed / 10.f;
 	for (int i = 0; i < 10; ++i)
 	{
 		//프로그래스가 1이 되거나, 목적지까지 도달했으면
 		if (progress >= 0.75f && (destination - _monsterPos).Length() < _speed)
 		{
-			pCharacter->x = destination.x;
-			pCharacter->y = destination.y;
+			pCharacter->position.x = destination.x;
+			pCharacter->position.y = destination.y;
 			//미리 지정된 다음 씬을 반환한다.
 			return pNextState;
 		}
@@ -107,7 +107,7 @@ ICharacterState* LinearMoveToState::Update()
 		//해당 각도로 speed만큼 이동한다.
 		_monsterPos += (Transform)mat;
 	}
-	pCharacter->x = _monsterPos.x;
-	pCharacter->y = _monsterPos.y;
+	pCharacter->position.x = _monsterPos.x;
+	pCharacter->position.y = _monsterPos.y;
 	return this;
 }
