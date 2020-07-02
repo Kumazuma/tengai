@@ -1,6 +1,6 @@
 #pragma once
 #include<memory>
-#include<queue>
+#include<list>
 #include"GameObject.h"
 class Event;
 struct EventQueueItem
@@ -21,7 +21,9 @@ public:
 	static void Initialize();
 	static void Release();
 	static void LateUpdate();
-
+	static void RegisterObject(GameObject* const pObject);
+	static void UnregisterObject(GameObject* const pObject);
+	//set 균형이진트리.
 	//특정한 객체일 때
 	template<typename EventT, typename ...Args>
 	static void Broadcast(const GameObject* _obj, Args&&...args);
@@ -33,7 +35,9 @@ public:
 	template<typename EventT, typename ...Args>
 	static void Broadcast(ObjectType _type);
 public:
-	std::queue<EventQueueItem> eventQueue;
+	std::vector<EventQueueItem> eventQueue;
+	//메시지를 받기로 한 객체들
+	
 };
 template<typename EventT, typename ...Args>
 inline static void EventManager::Broadcast(const GameObject* _obj, Args&&...args)
