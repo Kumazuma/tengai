@@ -7,7 +7,8 @@ Monster::Monster() :
 	moveDownState{ this, Transform{400, 100} , Transform{550, 200 } , Transform{400, 500} },
 	moveUpState{ this, Transform{400, 500} , Transform{250, 200 } , Transform{400, 100} },
 	waitState{ 50 },
-	waitState2{ 50 }
+	waitState2{ 50 },
+	fireState{this, 0.5f}
 {
 	this->type = ObjectType::MONSTER;
 	this->pState = &initState;
@@ -23,6 +24,7 @@ Monster::Monster() :
 void Monster::Update()
 {
 	auto pNextState = pState->Update();
+	fireState.Update();
 	if (pNextState != pState)
 	{
 		pState = pNextState;
@@ -32,5 +34,5 @@ void Monster::Update()
 
 void Monster::Render()
 {
-	RenderManager::DrawCircle({ (int)x, (int)y, (int)x + 20, (int)y + 20 });
+	RenderManager::DrawCircle(RECT{ 0, 0, 20, 20 } + position);
 }

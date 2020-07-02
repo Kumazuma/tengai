@@ -13,4 +13,3 @@ public:
 protected:
 	int hp = 0;
 };
-

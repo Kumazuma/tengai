@@ -37,14 +37,40 @@ public:
 	Transform center;
 	Transform next;
 };
+
 //해당 위치에 대기하는 상태
 class WaitState :public ICharacterState
 {
 public:
+
+	//-1은 infinite
 	WaitState(int _tick);
 	void Reset() override;
 	ICharacterState* Update() override;
 	int tick;
 	int now;
 	ICharacterState* pNextState;
+};
+class FireState: public ICharacterState
+{
+public:
+	FireState(Character* pCharacter, float _interval);
+	void Reset() override;
+	Character* pCharacter;
+	float tick;
+	const float interval;
+};
+//주인공의 있는 방향으로 총발을 발사하는 비헤이비어
+class FocusOnPlayerFireState : public FireState
+{
+public:
+	FocusOnPlayerFireState(Character* pCharacter, float _interval);
+	ICharacterState* Update() override;
+};
+//방사형으로 쏘는 함수
+class FlowerFireState : public FireState
+{
+public:
+	FlowerFireState(Character* pCharacter, float _interval);
+	ICharacterState* Update() override;
 };

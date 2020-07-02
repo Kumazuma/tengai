@@ -10,10 +10,12 @@ int lastUid = 0;
 
 ObjectManager::ObjectManager()
 {
+	
 }
 
 ObjectManager::~ObjectManager()
 {
+
 }
 
 ObjectManager * ObjectManager::GetInstance()

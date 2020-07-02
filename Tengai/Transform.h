@@ -10,7 +10,7 @@ public:
 	Transform operator - (const Transform& other) const;
 	Transform& operator += (const Transform& other);
 	Transform& operator -= (const Transform& other);
-
+	RECT operator + (const RECT& rc) const;
 	float Length() const;
 	float x;
 	float y;
@@ -18,6 +18,10 @@ public:
 inline Transform operator *(float x, const Transform& pos)
 {
 	return { pos.x * x, pos.y * x };
+}
+inline RECT operator + (const RECT& rc, const Transform& pos)
+{
+	return { (int)pos.x + rc.left, (int)pos.y + rc.top, (int)pos.x + rc.right, (int)pos.y + rc.bottom };
 }
 inline Transform::Transform(float x, float y) :
 	x{ x },
@@ -48,6 +52,10 @@ inline Transform& Transform::operator -= (const Transform& other)
 	x -= other.x;
 	y -= other.y;
 	return *this;
+}
+inline RECT Transform::operator+(const RECT& rc) const 
+{
+	return rc + *this;
 }
 inline float Transform::Length() const
 {
@@ -159,9 +167,9 @@ inline Matrix Matrix::operator*(const Matrix& other) const
 		for (size_t x = 0; x < 3; ++x)
 		{
 			float value = 0.f;
-			value += item[y][0] * other[0][x];
-			value += item[y][1] * other[1][x];
-			value += item[y][2] * other[2][x];
+			value += item[y][0] * other.item[0][x];
+			value += item[y][1] * other.item[1][x];
+			value += item[y][2] * other.item[2][x];
 			res[y][x] = value;
 		}
 	}

@@ -1,10 +1,105 @@
 #include "stdafx.h"
 #include "Bullet.h"
-
+#include "RenderManager.h"
+#include "Transform.h"
+#include <xmemory>
+Bullet::Bullet()
+{
+	type = ObjectType::BULLET;
+}
 void Bullet::Update()
 {
 }
 
+void Bullet::Move()
+{
+	const float _speed = TimeManager::DeltaTime()* speed / 10.f;
+	for (int i = 0; i < 10; ++i)
+	{
+
+		Matrix mat = Matrix::Rotate(radian) * Matrix::Translate(_speed, 0);
+		//해당 각도로 speed만큼 이동한다.
+		position += (Transform)mat;
+	}
+}
+
 void Bullet::Render()
 {
+}
+
+void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transform& pos, float rad, bool _isAlias)
+{
+	if (_pObject == nullptr)
+	{
+		return;
+	}
+	if (_pObject->type != ObjectType::BULLET)
+	{
+		return;
+	}
+	Bullet* pBullet = (Bullet*)_pObject;
+
+	switch (_type)
+	{
+	case BulletType::_01:
+		pBullet->~Bullet();
+		new(pBullet) Bullet01{};
+		break;
+	case BulletType::_02:
+		pBullet->~Bullet();
+		new(pBullet) Bullet02{};
+		break;
+	case BulletType::_03:
+		pBullet->~Bullet();
+		new(pBullet) Bullet03{};
+		break;
+	}
+	pBullet->position = pos;
+	pBullet->radian = rad;
+	pBullet->bulletType = _type;
+	pBullet->isAlias = _isAlias;
+}
+
+Bullet01::Bullet01()
+{
+	hp = 999;
+	speed = 100;
+}
+
+Bullet02::Bullet02()
+{
+	hp = 999;
+	speed = 150;
+}
+
+Bullet03::Bullet03()
+{
+	hp = 999;
+	speed = 200;
+}
+void Bullet01::Update()
+{
+	Move();
+}
+void Bullet02::Update()
+{
+	radian += 3.141592f * 2 / 180;
+	Move();
+}
+void Bullet03::Update()
+{
+	Move();
+}
+void Bullet01::Render()
+{
+	RenderManager::DrawCircle(RECT{ - 6, - 4, 6, 4 } + position);
+}
+void Bullet02::Render()
+{
+	RenderManager::DrawCircle(RECT{ -4, -4, 4, 4 } + position);
+}
+
+void Bullet03::Render()
+{
+	RenderManager::DrawCircle(RECT{ -8, -8, 8, 8 } + position);
 }

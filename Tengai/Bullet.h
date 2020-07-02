@@ -1,9 +1,51 @@
 #pragma once
 #include "Character.h"
+#include "Transform.h"
+enum class BulletType
+{
+	NONE,
+	_01,
+	_02,
+	_03,
+	END
+};
+class MetaBullet
+{
+public:
+	static void Initialize(GameObject* _pObject, BulletType _type, const Transform & pos, float rad, bool _isAlias);
+};
 class Bullet : public Character
 {
+public:
+	Bullet();
 	// GameObject을(를) 통해 상속됨
+	virtual void Update() override;
+	virtual void Move();
+	virtual void Render() override;
+	BulletType bulletType;
+	bool isAlias;
+	float radian;
+private:
+
+};
+class Bullet01 : public Bullet
+{
+public:
+	Bullet01();
 	virtual void Update() override;
 	virtual void Render() override;
 };
-
+class Bullet02 : public Bullet
+{
+public:
+	Bullet02();
+	virtual void Update() override;
+	virtual void Render() override;
+};
+class Bullet03 : public Bullet
+{
+public:
+	Bullet03();
+	virtual void Update() override;
+	virtual void Render() override;
+};

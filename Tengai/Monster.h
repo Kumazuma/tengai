@@ -6,10 +6,10 @@ enum MonsterType
 	NONE = 0,
 	MOB01,
 	MOB02,
-	MOB03,
 	BOSS,
 	END
 };
+
 class Monster :
 	public Character
 {
@@ -28,5 +28,6 @@ public:
 	BezierCurveMoveToState moveUpState;
 	WaitState waitState2;
 	BezierCurveMoveToState moveDownState;
+	FlowerFireState fireState;
 };
 

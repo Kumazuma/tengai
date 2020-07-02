@@ -12,7 +12,7 @@ struct EventQueueItem
 class EventManager
 {
 private:
-	EventManager() = default;
+	EventManager();
 	~EventManager() = default;
 private:
 	static void Broadcast(Event* _event, ObjectType _type, int _uid = 0);
