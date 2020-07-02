@@ -25,6 +25,7 @@ public:
 	BulletType bulletType;
 	bool isAlias;
 	float radian;
+	void OnCollision(const CollisionEvent& event);
 private:
 
 };

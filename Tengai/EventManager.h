@@ -22,10 +22,12 @@ public:
 	static void Release();
 	static void LateUpdate();
 
+	//특정한 객체일 때
 	template<typename EventT, typename ...Args>
 	static void Broadcast(const GameObject* _obj, Args&&...args);
 	template<typename EventT, typename ...Args>
 	static void Broadcast(const GameObject* _obj);
+	//특정 오브젝트 타입인 객체들에게
 	template<typename EventT, typename ...Args>
 	static void Broadcast(ObjectType _type, Args&&...args);
 	template<typename EventT, typename ...Args>

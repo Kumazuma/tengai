@@ -10,6 +10,6 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
-
+	void OnCollision(const CollisionEvent& event);
 };
 

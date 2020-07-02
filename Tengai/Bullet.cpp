@@ -3,12 +3,22 @@
 #include "RenderManager.h"
 #include "Transform.h"
 #include <xmemory>
+#include"GameObject.h"
 Bullet::Bullet()
 {
 	type = ObjectType::BULLET;
+	Bind(EventId::COLLISION_OBJ, &Bullet::OnCollision);
 }
 void Bullet::Update()
 {
+	if (position.x <= 0 || position.y <= 0)
+	{
+		ObjectManager::DeleteObject(this);
+	}
+	if(position.x >= WINDOW_WIDTH || position.y >= WINDOW_HEIGHT)
+	{ 
+		ObjectManager::DeleteObject(this);
+	}
 }
 
 void Bullet::Move()
@@ -25,6 +35,14 @@ void Bullet::Move()
 
 void Bullet::Render()
 {
+}
+
+void Bullet::OnCollision(const CollisionEvent& event)
+{
+	if (event.other->type != ObjectType::BULLET)
+	{
+		ObjectManager::DeleteObject(this);
+	}
 }
 
 void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transform& pos, float rad, bool _isAlias)
@@ -80,15 +98,18 @@ Bullet03::Bullet03()
 void Bullet01::Update()
 {
 	Move();
+	Bullet::Update();
 }
 void Bullet02::Update()
 {
 	radian += 3.141592f * 2 / 180;
 	Move();
+	Bullet::Update();
 }
 void Bullet03::Update()
 {
 	Move();
+	Bullet::Update();
 }
 void Bullet01::Render()
 {

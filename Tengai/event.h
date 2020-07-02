@@ -5,6 +5,7 @@ enum class EventId {
 	DIE_MONSTER,//몬스터가 죽었을 때 발생해야 하는 이벤트
 	PASS_TIME,//어느 시간이 지났을 때 발생해야 하는 이벤트
 	COLLISION_OBJ,//다른 몬스터와 부딪쳤을 때 발생해야 하는 이벤트
+	DIE_PLAYER,
 	END
 };
 class Event {

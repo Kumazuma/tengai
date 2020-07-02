@@ -7,10 +7,12 @@ Player::Player()
 	speed = 5;
 	width = 100;
 	height = 100;
+	Bind(EventId::COLLISION_OBJ, &Player::OnCollision);
 }
 
 Player::~Player()
 {
+	
 }
 
 void Player::Update()
@@ -37,4 +39,22 @@ void Player::Update()
 void Player::Render()
 {
 	RenderManager::DrawRect(RECT{ 0,0 ,width,height } + position);
+}
+#include "Bullet.h"
+void Player::OnCollision(const CollisionEvent& event)
+{
+	if (event.other->type == ObjectType::BULLET)
+	{
+		auto* pBullet = (Bullet*)event.other;
+		if (pBullet->isAlias == false)
+		{
+			//나는 맞았다.
+			--hp;
+			if (hp == 0)
+			{
+				Die();
+				
+			}
+		}
+	}
 }
