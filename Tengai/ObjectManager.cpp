@@ -123,6 +123,29 @@ void ObjectManager::LateUpdate()
 	
 	// Ãæµ¹
 	
+	auto citer = objList.begin();
+	auto cend = objList.end();
+	for (; citer != cend; ++citer)
+	{
+		auto citer2 = citer;
+		++citer2;
+		for (; citer2 != cend; ++citer2)
+		{
+			Character* target = dynamic_cast<Character*>(*citer);
+			if (target->Collision(*citer2))
+			{
+				if ((*citer)->handlerTable[(int)EventId::COLLISION_OBJ] != nullptr)
+				{
+					//EventManager::Broadcast<CollisionEvent>(citer, citer2);
+				}
+				if ((*citer2)->handlerTable[(int)EventId::COLLISION_OBJ] != nullptr)
+				{
+					EventManager::Broadcast<CollisionEvent>(*citer2, *citer);
+				}
+			}
+		}
+	}
+	
 }
 
 void ObjectManager::Render()
