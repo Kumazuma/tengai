@@ -162,6 +162,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MainGame.h" />
+    <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Player.h" />

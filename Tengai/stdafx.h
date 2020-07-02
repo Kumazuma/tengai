@@ -19,6 +19,7 @@ using namespace std;
 
 // 사용자 추가
 
+#include "MemoryPool.h"
 #include "Define.h"
 #include "TimeManager.h"
 #include "InputManager.h"

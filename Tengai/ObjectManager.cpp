@@ -46,7 +46,7 @@ GameObject * ObjectManager::CreateObject(ObjectType _type)
 		break;
 	}
 	case ObjectType::BULLET:
-		pObj = new Bullet();
+		pObj = pObjectManager->bulletPool.Alloc();
 		break;
 	case ObjectType::UI:
 		pObj = new UI();
@@ -56,15 +56,17 @@ GameObject * ObjectManager::CreateObject(ObjectType _type)
 	}
 
 	pObj->uid = ++lastUid;
-	pObjectManager->objectList.insert(pObj);
+	pObjectManager->objectTable[(int)_type].push_back(pObj);
+	pObjectManager->objectList.push_back(pObj);
 
 	return pObj;
 }
 
 bool ObjectManager::DeleteObject(GameObject * _target)
 {
-	auto& objList = pObjectManager->objectList;
-	auto target = objList.find(_target);
+	auto& objList = pObjectManager->objectTable[(int)_target->type];
+	
+	auto target = find(objList.begin(), objList.end(), _target);
 	if (target != objList.end())
 	{
 		_target->Die();
@@ -75,56 +77,76 @@ bool ObjectManager::DeleteObject(GameObject * _target)
 
 void ObjectManager::DestroyAll()
 {
-	for (auto iter : pObjectManager->objectList)
+	auto& objTable = pObjectManager->objectTable;
+	for (auto&objList  : objTable)
 	{
-		iter->Die();
-	}
-}
-
-void ObjectManager::DestroyAll(ObjectType _type)
-{
-	for (auto iter : pObjectManager->objectList)
-	{
-		if (iter->type == _type)
+		for (auto& iter : objList)
 		{
 			iter->Die();
 		}
 	}
 }
 
+void ObjectManager::DestroyAll(ObjectType _type)
+{
+	auto& objList = pObjectManager->objectTable[(int)_type];
+	for (auto iter : objList)
+	{
+		iter->Die();
+	}
+}
+
 void ObjectManager::Update()
 {
-	for (auto iter : pObjectManager->objectList)
+	auto& objTable = pObjectManager->objectTable;
+	for (auto& objList : objTable)
 	{
-		iter->Update();
+		for (auto& iter : objList)
+		{
+			iter->Update();
+		}
 	}
+	
 }
 
 void ObjectManager::LateUpdate()
 {
-	// 삭제
-	auto& objList = pObjectManager->objectList;
-	auto iter = objList.begin();
-	auto end = objList.end();
+	auto& objTable = pObjectManager->objectTable;
+	auto& goList = pObjectManager->objectList;
 	GameObject* target = nullptr;
-	for (; iter != end;)
+	for (auto& objList : objTable)
 	{
-		target = *iter;
-		if (target->isDead)
+		auto iter = objList.begin();
+		auto end = objList.end();
+		for (;iter!=end;)
 		{
-			delete target;
-			iter = objList.erase(iter);
-		}
-		else
-		{
-			++iter;
+			target = *iter;
+			if (target->isDead)
+			{
+				auto findResult = find(goList.begin(), goList.end(), (*iter));
+				goList.erase(findResult);
+				iter = objList.erase(iter);
+
+				if (target->type == ObjectType::BULLET)
+				{
+					pObjectManager->bulletPool.Free((Bullet*)target);
+				}
+				else
+				{
+					delete target;
+				}
+			}
+			else
+			{
+				++iter;
+			}
 		}
 	}
 	
 	// 충돌
 	
-	auto citer = objList.begin();
-	auto cend = objList.end();
+	auto citer = pObjectManager->objectList.begin();
+	auto cend = pObjectManager->objectList.end();
 	for (; citer != cend; ++citer)
 	{
 		auto citer2 = citer;
@@ -150,9 +172,13 @@ void ObjectManager::LateUpdate()
 
 void ObjectManager::Render()
 {
-	for (auto iter : pObjectManager->objectList)
+	auto& objTable = pObjectManager->objectTable;
+	for (auto& objList : objTable)
 	{
-		iter->Render();
+		for (auto& iter : objList)
+		{
+			iter->Render();
+		}
 	}
 
 	TimeManager::RenderFPS();

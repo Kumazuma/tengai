@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include "GameObject.h"
+#include "Bullet.h"
 
 using namespace std;
 
@@ -24,8 +25,8 @@ public:
 	static void Render();
 	
 	Player* pPlayer = nullptr;
-	set<GameObject*, ObjectCompare> objectList;
-	
-	
+	list<GameObject*>objectTable[ENUM_MAX<ObjectType>()];
+	list<GameObject*>objectList;
+	MemoryPool<Bullet> bulletPool;
 };
 
