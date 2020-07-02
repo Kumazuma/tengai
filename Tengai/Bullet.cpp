@@ -58,7 +58,7 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 		return;
 	}
 	Bullet* pBullet = (Bullet*)_pObject;
-
+	auto uid = pBullet->uid;
 	switch (_type)
 	{
 	case BulletType::_01:
@@ -74,6 +74,7 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 		new(pBullet) Bullet03{};
 		break;
 	}
+	pBullet->uid = uid;
 	pBullet->position = pos;
 	pBullet->radian = rad;
 	pBullet->bulletType = _type;
