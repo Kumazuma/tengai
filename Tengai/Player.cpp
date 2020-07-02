@@ -7,6 +7,8 @@ Player::Player()
 	speed = 5;
 	width = 100;
 	height = 100;
+	simpleCollider = { 0,0,100,100 };
+	colliders.push_back({ 0,0,100,100 });
 	Bind(EventId::COLLISION_OBJ, &Player::OnCollision);
 }
 

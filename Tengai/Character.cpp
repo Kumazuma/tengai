@@ -17,23 +17,12 @@ bool Character::Collision(const GameObject* _target)
 		return false;
 	}
 
-	RECT myBox = 
-	{
-		simpleCollider.left + position.x,
-		simpleCollider.top + position.y,
-		simpleCollider.right + position.x,
-		simpleCollider.bottom + position.y
-	};
+	RECT myBox = this->simpleCollider + this->position;
 
-	RECT targetBox =
-	{
-		target->simpleCollider.left + target->position.x,
-		target->simpleCollider.top + target->position.y,
-		target->simpleCollider.right + target->position.x,
-		target->simpleCollider.bottom + target->position.y
-	};
+	RECT targetBox = target->simpleCollider + target->position;
+	RECT outBox;
 
-	if (!IntersectRect(nullptr, &myBox, &targetBox))
+	if (!IntersectRect(&outBox, &myBox, &targetBox))
 	{
 		return false;
 	}
@@ -52,7 +41,7 @@ bool Character::Collision(const GameObject* _target)
 			targetCollider.right += target->position.x;
 			targetCollider.bottom += target->position.y;
 
-			if (IntersectRect(nullptr, &collider, &targetCollider))
+			if (IntersectRect(&outBox, &collider, &targetCollider))
 			{
 				return true;
 			}
