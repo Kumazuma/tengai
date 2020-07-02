@@ -47,8 +47,7 @@ bool TimeManager::SkipFrame()
 	pTimeManager->oldTime = curTime;
 	// 델타타임 갱신
 	pTimeManager->deltaTime = (float)elapse / 1000;
-	// 프레임당 초과/미만 시간 
-	pTimeManager->timeStack += elapse - pTimeManager->targetFrameRate;
+	
 	// 프레임 카운트
 	pTimeManager->frameCounter++;
 
@@ -59,13 +58,18 @@ bool TimeManager::SkipFrame()
 		pTimeManager->elapseSum = 0;
 	}
 
-	if (pTimeManager->timeStack < 0) // 빠르면
+	// 프레임당 초과/미만 시간 
+	pTimeManager->timeStack += elapse - pTimeManager->targetFrameRate;
+
+	if (pTimeManager->timeStack >= pTimeManager->targetFrameRate) // 느리면
+	{
+		pTimeManager->timeStack -= pTimeManager->targetFrameRate;
+		return true;
+		
+	}
+	else if (pTimeManager->timeStack < pTimeManager->targetFrameRate) // 빠르면
 	{
 		Sleep(abs(pTimeManager->timeStack));
-	}
-	else if (pTimeManager->timeStack > pTimeManager->targetFrameRate) // 느리면
-	{
-		return true;
 	}
 		
 

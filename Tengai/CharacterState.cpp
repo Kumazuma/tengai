@@ -148,7 +148,7 @@ ICharacterState* FlowerFireState::Update()
 	if (tick >= interval)
 	{
 		//»ç°Ý
-		for (int i = 0; i < 22; ++i)
+		for (int i = 0; i < 50; ++i)
 		{
 			const float radian = 3.141592f * i * 16.f / 180;
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
