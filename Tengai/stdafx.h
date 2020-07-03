@@ -21,6 +21,7 @@ using namespace std;
 
 #include "MemoryPool.h"
 #include "Define.h"
+#include "MainGame.h"
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "ObjectManager.h"

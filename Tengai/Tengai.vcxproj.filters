@@ -99,6 +99,12 @@
     <ClInclude Include="TestPlayScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseBox.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tengai.cpp">
@@ -156,6 +162,12 @@
       <Filter>Manager</Filter>
     </ClCompile>
     <ClCompile Include="TestPlayScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -21,6 +21,13 @@ Player::~Player()
 
 void Player::Update()
 {
+	if (InputManager::GetKeyDown(VK_ESCAPE))
+	{
+		MainGame::Pause();
+		return;
+	}
+
+	// 방향키
 	if (InputManager::GetKey(VK_LEFT))
 	{
 		if (InputManager::GetKey(VK_UP))
@@ -60,6 +67,7 @@ void Player::Update()
 		Move(Direction::DOWN);
 	}
 
+	// 공격키
 	if (InputManager::GetKey('A'))
 	{
 		Fire();

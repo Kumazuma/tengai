@@ -4,6 +4,7 @@
 #include "RenderManager.h"
 #include "EventManager.h"
 #include "Monster.h"
+#include "PauseBox.h"
 #include "TestPlayScene.h"
 MainGame* pMainGame = nullptr;
 
@@ -42,20 +43,13 @@ void MainGame::Release()
 {
 }
 
-
 void MainGame::Run()
 {
 
 	InputManager::Update();
 	if (pMainGame->isPause)
 	{
-		//Background클래스의 오브젝트 타입을 ObjectType::Backgound로 하고, 퍼즈 박스만 따로 얻어서 업데이트를 돌린다.
-		//
-		auto& UIs = ObjectManager::GetInstance()->objectTable[(int)ObjectType::UI];
-		for (auto ui : UIs)
-		{		
-			ui->Update();
-		}
+		PauseBox::GetInstance()->Update();
 	}
 	else
 	{
@@ -67,7 +61,24 @@ void MainGame::Run()
 	{
 		RenderManager::Clear();
 		ObjectManager::Render();
+		PauseBox::GetInstance()->Render();
 		RenderManager::Present();
 	}
-	SceneManager::LastUpdate();
+}
+
+void MainGame::Pause()
+{
+	pMainGame->isPause = true;
+	PauseBox::Show();
+}
+
+void MainGame::Resume()
+{
+	pMainGame->isPause = false;
+	PauseBox::Hide();
+}
+
+void MainGame::Shutdown()
+{
+	PostQuitMessage(0);
 }
