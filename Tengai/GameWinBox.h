@@ -1,11 +1,11 @@
 #pragma once
-#include "UI.h"
-class GameOverBox :
+#include"UI.h"
+class GameWinBox :
 	public UI
 {
 public:
-	GameOverBox();
-	virtual ~GameOverBox();
+	GameWinBox();
+	virtual ~GameWinBox();
 	virtual void Update() override;
 	virtual void Render() override;
 

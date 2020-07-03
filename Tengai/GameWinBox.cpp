@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "GameOverBox.h"
+#include "GameWinBox.h"
+#include "SceneManager.h"
 #include "TitleScene.h"
-
-GameOverBox::GameOverBox()
+GameWinBox::GameWinBox()
 {
 	position.x = WINDOW_WIDTH / 2;
 	position.y = WINDOW_HEIGHT / 2;
@@ -12,11 +12,11 @@ GameOverBox::GameOverBox()
 	area = { -100,-100,100,100 };
 }
 
-GameOverBox::~GameOverBox()
+GameWinBox::~GameWinBox()
 {
-
 }
-void GameOverBox::Update()
+
+void GameWinBox::Update()
 {
 	if (!isEnable) return;
 	if (InputManager::GetKeyDown(VK_ESCAPE))
@@ -26,21 +26,21 @@ void GameOverBox::Update()
 	}
 }
 
-void GameOverBox::Render()
+void GameWinBox::Render()
 {
 	if (!isVisible) return;
 	int offset = area.left / 2;
-	RenderManager::DrawRect(area + position, RGB(255, 0, 0));
-	RenderManager::DrawString(L"게 임 오 버", position.x +offset , position.y);
+	RenderManager::DrawRect(area + position, RGB(128, 128, 255));
+	RenderManager::DrawString(L"끝!!", position.x + offset, position.y);
 }
 
-void GameOverBox::Show()
+void GameWinBox::Show()
 {
 	isEnable = true;
 	isVisible = true;
 }
 
-void GameOverBox::Hide()
+void GameWinBox::Hide()
 {
 	isEnable = false;
 	isVisible = false;

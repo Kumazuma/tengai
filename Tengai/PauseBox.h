@@ -8,18 +8,15 @@ class ExitButton;
 class PauseBox : public UI
 {
 private:
+public:
 	PauseBox();
 	virtual ~PauseBox();
-
-public:
-	static PauseBox* GetInstance();
-	static void Release();
 
 	virtual void Update() override;
 	virtual void Render() override;
 
-	static void Show();
-	static void Hide();
+	void Show();
+	void Hide();
 	void Select();
 
 	ResumeButton* pResumeButton = nullptr;

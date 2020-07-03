@@ -40,7 +40,6 @@ void MainGame::Initialize()
 	SceneManager::GetInstance();
 	EventManager::GetInstance();
 	SceneManager::LoadScene<TitleScene>();
-	GameOverBox::GetInstance();
 }
 
 void MainGame::Release()
@@ -57,12 +56,7 @@ void MainGame::Run()
 {
 
 	InputManager::Update();
-	if (pMainGame->isPause)
-	{
-		PauseBox::GetInstance()->Update();
-		GameOverBox::GetInstance()->Update();
-	}
-	else
+	if (pMainGame->isPause == false)
 	{
 		ObjectManager::Update();
 	}
@@ -73,8 +67,6 @@ void MainGame::Run()
 		RenderManager::Clear();
 		BackGround::GetInstance()->Render();
 		ObjectManager::Render();
-		GameOverBox::GetInstance()->Render();
-		PauseBox::GetInstance()->Render();
 		RenderManager::Present();
 	}
 	SceneManager::LastUpdate();

@@ -2,12 +2,20 @@
 #include "TestPlayScene.h"
 #include "Monster.h"
 #include "MainGame.h"
+#include "PauseBox.h"
+#include "GameOverBox.h"
+PlayScene::PlayScene():
+    pCurrentShowBox{nullptr}
+{
+
+}
 void PlayScene::OnLoaded()
 {
     time = 0.f;
     oldTime = 0.0f;
     ObjectManager::CreateObject(ObjectType::PLAYER);
     timeline = {
+        /*{ 1  ,Monster::Initialize(ObjectManager::CreateObject(ObjectType::MONSTER),MonsterType::BOSS, Transform{ WINDOW_WIDTH + 32, WINDOW_HEIGHT / 2 }) }*/
         { 0 ,Monster::Initialize(ObjectManager::CreateObject(ObjectType::MONSTER),MonsterType::MOB01, Transform{ WINDOW_WIDTH + 32, WINDOW_HEIGHT / 2 }) },
         { 2 ,Monster::Initialize(ObjectManager::CreateObject(ObjectType::MONSTER),MonsterType::MOB01, Transform{ WINDOW_WIDTH + 32, WINDOW_HEIGHT / 2 }) },
         { 4 ,Monster::Initialize(ObjectManager::CreateObject(ObjectType::MONSTER),MonsterType::MOB01, Transform{ WINDOW_WIDTH + 32, WINDOW_HEIGHT / 2 }) },
@@ -36,6 +44,7 @@ void PlayScene::OnLoaded()
         { 60  ,Monster::Initialize(ObjectManager::CreateObject(ObjectType::MONSTER),MonsterType::BOSS, Transform{ WINDOW_WIDTH + 32, WINDOW_HEIGHT / 2 }) }
     };
     iter = timeline.begin();
+    MainGame::Resume();
 }
 
 void PlayScene::OnUnloaded()
@@ -46,7 +55,6 @@ void PlayScene::OnUnloaded()
 //#2 백그라운드가 이벤트를 받아서
 void PlayScene::Update()
 {
-
     if (MainGame::GetInstance()->isPause == false)
     {
         float currentTime = time + TimeManager::DeltaTime();
@@ -68,6 +76,53 @@ void PlayScene::Update()
                 break;
             }
         }
-        
     }
+    else if (pCurrentShowBox != nullptr)
+    {
+        pCurrentShowBox->Update();
+    }
+    if (InputManager::GetKeyDown(VK_ESCAPE))
+    {
+        if (MainGame::GetInstance()->isPause == false)
+        {
+            MainGame::Pause();
+            auto box = (UI*)ObjectManager::CreateObject<PauseBox>(ObjectType::UI);
+            if (ShowBox(box))
+            {
+                box->Show();
+            }
+            else
+            {
+                box->Die();
+            }
+        }
+        else if(dynamic_cast<PauseBox*>(pCurrentShowBox) != nullptr)
+        {
+            HideBox();
+        }
+    }
+}
+
+bool PlayScene::ShowBox(UI* ptr)
+{
+    if (pCurrentShowBox == nullptr)
+    {
+        pCurrentShowBox = ptr;
+        return true;
+    }
+    else
+    {
+        ptr->Die();
+    }
+    return false;
+}
+
+bool PlayScene::HideBox()
+{
+    if (pCurrentShowBox != nullptr)
+    {
+        pCurrentShowBox->Hide();
+    }
+    pCurrentShowBox = nullptr;
+    return true;
 }

@@ -2,6 +2,7 @@
 #include "Monster.h"
 #include "RenderManager.h"
 #include "item.h"
+#include "GameWinBox.h"
 Monster::Monster() 
 {
 	this->type = ObjectType::MONSTER;
@@ -19,7 +20,7 @@ GameObject* Monster::Initialize(GameObject* const obj, MonsterType monsterType, 
 	return obj;
 }
 
-void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
+void Monster::Initialize(const MonsterType _monsterType, const Transform& firstPos)
 {
 	Bind(EventId::PASS_TIME, &Monster::OnShow);
 	Bind(EventId::COLLISION_OBJ, &Monster::OnCollision);
@@ -35,7 +36,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 		delete it;
 	}
 	moveStateList.clear();
-	switch (monsterType)
+	switch (_monsterType)
 	{
 	case MonsterType::MOB01:
 	{
@@ -60,7 +61,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 		fireStateList[2]->pNextState = fireStateList[0];
 		monsterRect = RECT{ -18, -18, 18, 18 };
 		colliders.push_back(RECT{ -16, -16, 16, 16 });
-		hp = 2;
+		hp = 1;
 	}
 	break;
 	case MonsterType::MOB02:
@@ -92,7 +93,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 
 		monsterRect = RECT{ -28, -28, 28, 28 };
 		colliders.push_back(RECT{ -24, -24, 24, 24 });
-		hp = 10;
+		hp = 5;
 	}
 	break;
 	case MonsterType::BOSS:
@@ -129,9 +130,10 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 
 		monsterRect = RECT{ -36, -36, 36, 36 };
 		colliders.push_back(RECT{ -32, -32, 32, 32 });
-		hp = 150;
+		hp = 10;
 		break;
 	}
+	monsterType = _monsterType;
 	simpleCollider = CreateSimpleCollider(colliders);
 	currentMoveState = this->moveStateList.front();
 	currentFireState = this->fireStateList.front();
@@ -204,6 +206,19 @@ void Monster::OnCollision(const CollisionEvent& event)
 		if (hp <= 0)
 		{
 			Die();
+			if (monsterType == MonsterType::BOSS)
+			{
+				GameObject::Die();
+				UI* ui = (UI*)ObjectManager::CreateObject<GameWinBox>(ObjectType::UI);
+				if (SceneManager::GetInstance()->pCurrentScene->ShowBox(ui) == false)
+				{
+					SceneManager::GetInstance()->pCurrentScene->HideBox();
+					SceneManager::GetInstance()->pCurrentScene->ShowBox(ui);
+				}
+				ui->Show();
+				MainGame::Pause();
+				return;
+			}
 			//아이템을 생성한다.
 			ItemType itemType = ItemType::NONE;
 			switch (rand() % 2)

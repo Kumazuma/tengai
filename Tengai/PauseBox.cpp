@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "PauseBox.h"
 
-PauseBox* pPauseBox = nullptr;
-
 PauseBox::PauseBox()
 {
+	
 	position.x = WINDOW_WIDTH / 2;
 	position.y = WINDOW_HEIGHT / 2;
 
@@ -23,21 +22,6 @@ PauseBox::~PauseBox()
 	delete pResumeButton;
 	delete pExitButton;
 }
-
-PauseBox* PauseBox::GetInstance()
-{
-	if (pPauseBox == nullptr)
-	{
-		pPauseBox = new PauseBox;
-	}
-	return pPauseBox;
-}
-
-void PauseBox::Release()
-{
-	delete pPauseBox;
-}
-
 void PauseBox::Update()
 {
 	if (!isEnable) return;
@@ -45,7 +29,6 @@ void PauseBox::Update()
 	if (InputManager::GetKeyDown(VK_ESCAPE))
 	{
 		this->Hide();
-		MainGame::Resume();
 		return;
 	}
 
@@ -90,7 +73,7 @@ void PauseBox::Render()
 {
 	if (!isVisible) return;
 
-	RenderManager::DrawRect(pPauseBox->area+pPauseBox->position, RGB(100, 100, 100), RGB(0, 0, 0));
+	RenderManager::DrawRect(area+ position, RGB(100, 100, 100), RGB(0, 0, 0));
 
 	pResumeButton->Render();
 	pExitButton->Render();
@@ -98,21 +81,24 @@ void PauseBox::Render()
 
 void PauseBox::Show()
 {
-	pPauseBox->isEnable = true;
-	pPauseBox->isVisible = true;
+	isEnable = true;
+	isVisible = true;
 }
 
 void PauseBox::Hide()
 {
-	pPauseBox->isEnable = false;
-	pPauseBox->isVisible = false;
+	isEnable = false;
+	isVisible = false;
+	Die();
 }
 
 void PauseBox::Select()
 {
+	SceneManager::GetInstance()->pCurrentScene->HideBox();
 	if (selector)
 	{
 		MainGame::Resume();
+		
 	}
 	else
 	{

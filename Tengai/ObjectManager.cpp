@@ -13,17 +13,13 @@ int lastUid = 0;
 
 ObjectManager::ObjectManager()
 {
-	pPauseUI = PauseBox::GetInstance();
 	pBG = BackGround::GetInstance();
-	GameOverBox::GetInstance();
 
-	pPauseUI->uid = ++lastUid;
 	pBG->uid = ++lastUid;
 }
 
 ObjectManager::~ObjectManager()
 {
-	PauseBox::Release();
 	BackGround::Release();
 	for (auto it : pObjectManager->objectList)
 	{
@@ -38,6 +34,13 @@ ObjectManager::~ObjectManager()
 		
 	}
 	pObjectManager->objectList.clear();
+}
+
+void ObjectManager::AddObject(ObjectType _type, GameObject* pObj)
+{
+	pObj->uid = ++lastUid;
+	pObjectManager->objectTable[(int)_type].push_back(pObj);
+	pObjectManager->objectList.push_back(pObj);
 }
 
 ObjectManager * ObjectManager::GetInstance()
@@ -156,6 +159,10 @@ void ObjectManager::LateUpdate()
 			target = *iter;
 			if (target->isDead)
 			{
+				if (target == pObjectManager->pPlayer)
+				{
+					pObjectManager->pPlayer = nullptr;
+				}
 				auto findResult = find(goList.begin(), goList.end(), (*iter));
 				goList.erase(findResult);
 				iter = objList.erase(iter);
@@ -182,11 +189,15 @@ void ObjectManager::LateUpdate()
 	auto cend = pObjectManager->objectList.end();
 	for (; citer != cend; ++citer)
 	{
+		Character* target = dynamic_cast<Character*>(*citer);
+		if (target == nullptr)
+		{
+			continue;
+		}
 		auto citer2 = citer;
 		++citer2;
 		for (; citer2 != cend; ++citer2)
 		{
-			Character* target = dynamic_cast<Character*>(*citer);
 			if (target->Collision(*citer2))
 			{
 				if ((*citer)->handlerTable[(int)EventId::COLLISION_OBJ] != nullptr)
@@ -223,7 +234,6 @@ void ObjectManager::Render()
 	ObjectManager::RenderHP();
 
 	// 퍼즈박스 (최상위 렌더)
-	PauseBox::GetInstance()->Render();
 }
 
 void ObjectManager::RenderBulletCount()

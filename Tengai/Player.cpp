@@ -15,7 +15,7 @@ Player::Player()
 	hp = 3;
 	type = ObjectType::PLAYER;
 	simpleCollider = { -15,-15,15,15 };
-	pFireState = new PlayerAdditionalAttackState{ this, 0.15f };
+	pFireState = new PlayerBasicAttackState{ this, 0.15f };
 	colliders.push_back(simpleCollider);
 	Bind(EventId::COLLISION_OBJ, &Player::OnCollision);
 }
@@ -27,12 +27,7 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (InputManager::GetKeyDown(VK_ESCAPE))
-	{
-		MainGame::Pause();
-		PauseBox::Show();
-		return;
-	}
+	
 
 	// πÊ«‚≈∞
 	if (InputManager::GetKey(VK_LEFT))
@@ -79,7 +74,7 @@ void Player::Update()
 
 void Player::Render()
 {
-	RenderManager::DrawSimpleCollider(simpleCollider + position, RGB(0, 200, 0));
+	RenderManager::DrawRect(simpleCollider + position, RGB(56, 68, 255));
 }
 
 void Player::OnCollision(const CollisionEvent& event)
@@ -185,7 +180,13 @@ void Player::Move(Direction _direction)
 void Player::Die()
 {
 	GameObject::Die();
-	GameOverBox::Show();
+	UI* ui = (UI*)ObjectManager::CreateObject<GameOverBox>(ObjectType::UI);
+	if (SceneManager::GetInstance()->pCurrentScene->ShowBox(ui) == false)
+	{
+		SceneManager::GetInstance()->pCurrentScene->HideBox();
+		SceneManager::GetInstance()->pCurrentScene->ShowBox(ui);
+	}
+	ui->Show();
 	MainGame::Pause();
 	
 }
