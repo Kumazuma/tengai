@@ -17,12 +17,16 @@ class Monster :
 	//method
 public:
 	Monster();
+	static GameObject* Initialize(GameObject* const self, MonsterType monsterType, const Transform& firstPos);
 	void Initialize(MonsterType monsterType, const Transform& firstPos);
 	~Monster();
 	void Update() override;
 	void Render() override;
+	void OnShow(const Event&);
+	void OnCollision(const CollisionEvent& event);
 	//variable
 public:
+	bool isShow = false;
 	RECT monsterRect;
 	MonsterType monsterType;
 	CharacterState* currentFireState;

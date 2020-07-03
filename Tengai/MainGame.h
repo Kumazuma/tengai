@@ -15,9 +15,9 @@ public:
 	static void Run();
 	//TODO: Pause
 	//TODO: Resume
-
+	bool isPause = false;
 private:
 	bool isShutdown = false;
-	bool isPause = false;
+	
 };
 
