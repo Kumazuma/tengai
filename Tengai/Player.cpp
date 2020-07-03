@@ -4,6 +4,8 @@
 #include "CharacterState.h"
 #include "item.h"
 #include <type_traits>
+#include "GameOverBox.h"
+#include "PauseBox.h"
 Player::Player()
 {
 	position = { 50, 50 };
@@ -28,6 +30,7 @@ void Player::Update()
 	if (InputManager::GetKeyDown(VK_ESCAPE))
 	{
 		MainGame::Pause();
+		PauseBox::Show();
 		return;
 	}
 
@@ -182,6 +185,7 @@ void Player::Move(Direction _direction)
 void Player::Die()
 {
 	GameObject::Die();
-	//TODO:임시처리
+	GameOverBox::Show();
 	MainGame::Pause();
+	
 }

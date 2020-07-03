@@ -7,6 +7,9 @@
 #include "PauseBox.h"
 #include "BackGround.h"
 #include "TestPlayScene.h"
+#include "GameOverBox.h"
+#include "TitleScene.h"
+
 MainGame* pMainGame = nullptr;
 
 MainGame::MainGame()
@@ -36,8 +39,8 @@ void MainGame::Initialize()
 	RenderManager::GetInstance();
 	SceneManager::GetInstance();
 	EventManager::GetInstance();
-	SceneManager::LoadScene<PlayScene>();
-
+	SceneManager::LoadScene<TitleScene>();
+	GameOverBox::GetInstance();
 }
 
 void MainGame::Release()
@@ -57,6 +60,7 @@ void MainGame::Run()
 	if (pMainGame->isPause)
 	{
 		PauseBox::GetInstance()->Update();
+		GameOverBox::GetInstance()->Update();
 	}
 	else
 	{
@@ -69,6 +73,7 @@ void MainGame::Run()
 		RenderManager::Clear();
 		BackGround::GetInstance()->Render();
 		ObjectManager::Render();
+		GameOverBox::GetInstance()->Render();
 		PauseBox::GetInstance()->Render();
 		RenderManager::Present();
 	}
@@ -78,13 +83,11 @@ void MainGame::Run()
 void MainGame::Pause()
 {
 	pMainGame->isPause = true;
-	PauseBox::Show();
 }
 
 void MainGame::Resume()
 {
 	pMainGame->isPause = false;
-	PauseBox::Hide();
 }
 
 void MainGame::Shutdown()

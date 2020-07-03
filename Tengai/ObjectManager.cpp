@@ -7,6 +7,7 @@
 #include "PauseBox.h"
 #include "BackGround.h"
 #include "item.h"
+#include "GameOverBox.h"
 ObjectManager* pObjectManager = nullptr;
 int lastUid = 0;
 
@@ -14,6 +15,7 @@ ObjectManager::ObjectManager()
 {
 	pPauseUI = PauseBox::GetInstance();
 	pBG = BackGround::GetInstance();
+	GameOverBox::GetInstance();
 
 	pPauseUI->uid = ++lastUid;
 	pBG->uid = ++lastUid;
@@ -127,6 +129,8 @@ void ObjectManager::Release()
 
 void ObjectManager::Update()
 {
+	BackGround::GetInstance()->Update();
+
 	auto& objTable = pObjectManager->objectTable;
 	for (auto& objList : objTable)
 	{
@@ -216,6 +220,7 @@ void ObjectManager::Render()
 	// 디버그용
 	TimeManager::RenderFPS();
 	ObjectManager::RenderBulletCount();
+	ObjectManager::RenderHP();
 
 	// 퍼즈박스 (최상위 렌더)
 	PauseBox::GetInstance()->Render();
@@ -224,7 +229,15 @@ void ObjectManager::Render()
 void ObjectManager::RenderBulletCount()
 {
 	auto& bulletList = pObjectManager->objectTable[(int)ObjectType::BULLET];
-	WCHAR wstr[32];
+	WCHAR wstr[32] = {};
 	wsprintf(wstr, L"BulletCount : %d", (int)bulletList.size());
 	RenderManager::DrawString(wstr, WINDOW_WIDTH - 130, 0);
+}
+
+void ObjectManager::RenderHP()
+{
+	if (pObjectManager->pPlayer == nullptr) return;
+	WCHAR wText[64] = {};
+	wsprintf(wText, L"HP : %d", pObjectManager->pPlayer->hp);
+	RenderManager::DrawString(wText, 130, 0);
 }

@@ -162,6 +162,7 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameOverBox.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="MainGame.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Tengai.h" />
     <ClInclude Include="TestPlayScene.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
@@ -190,6 +192,7 @@
     <ClCompile Include="D2DRenderManager.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameOverBox.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="MainGame.cpp" />
@@ -206,6 +209,7 @@
     <ClCompile Include="Tengai.cpp" />
     <ClCompile Include="TestPlayScene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>

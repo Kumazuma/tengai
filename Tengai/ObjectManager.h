@@ -27,6 +27,7 @@ public:
 	static void Render();
 
 	static void RenderBulletCount();
+	static void RenderHP();
 	
 	Player* pPlayer = nullptr;
 	PauseBox* pPauseUI = nullptr;

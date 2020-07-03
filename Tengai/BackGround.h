@@ -12,6 +12,7 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
+	list<UI*> clouds;
 };
 
 class Cloud : public UI
@@ -21,6 +22,7 @@ public:
 	virtual ~Cloud();
 	virtual void Update() override;
 	virtual void Render() override;
+	float cloudSpeed = 100.f;
 	
 };
 

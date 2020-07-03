@@ -108,6 +108,12 @@
     <ClInclude Include="item.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="GameOverBox.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tengai.cpp">
@@ -174,6 +180,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="item.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
