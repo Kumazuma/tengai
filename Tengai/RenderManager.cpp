@@ -41,9 +41,53 @@ void RenderManager::DrawRect(const RECT& _rc)
 	Rectangle(pRenderManager->hBackBufferDC, _rc.left, _rc.top, _rc.right, _rc.bottom);
 }
 
+void RenderManager::DrawRect(const RECT& _rc, COLORREF _innerColor)
+{
+	HBRUSH hBrush = CreateSolidBrush(_innerColor);
+	HGDIOBJ oldBrush = SelectObject(pRenderManager->hBackBufferDC, hBrush);
+	Rectangle(pRenderManager->hBackBufferDC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	SelectObject(pRenderManager->hBackBufferDC, oldBrush);
+	DeleteObject(hBrush);
+}
+
+void RenderManager::DrawRect(const RECT& _rc, COLORREF _innerColor, COLORREF _outlineColor)
+{
+	HBRUSH hBrush = CreateSolidBrush(_innerColor);
+	HPEN hPen = CreatePen(PS_SOLID, 1, _outlineColor);
+	HGDIOBJ oldBrush = SelectObject(pRenderManager->hBackBufferDC, hBrush);
+	HGDIOBJ oldPen = SelectObject(pRenderManager->hBackBufferDC, hPen);
+	Rectangle(pRenderManager->hBackBufferDC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	SelectObject(pRenderManager->hBackBufferDC, oldBrush);
+	SelectObject(pRenderManager->hBackBufferDC, oldPen);
+	DeleteObject(hBrush);
+	DeleteObject(hPen);
+}
+
+void RenderManager::DrawSimpleCollider(const RECT& _rc, COLORREF _outlineColor)
+{
+	HPEN hPen = CreatePen(PS_SOLID, 1, _outlineColor);
+	HGDIOBJ oldPen = SelectObject(pRenderManager->hBackBufferDC, hPen);
+	Rectangle(pRenderManager->hBackBufferDC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	SelectObject(pRenderManager->hBackBufferDC, oldPen);
+	DeleteObject(hPen);
+}
+
 void RenderManager::DrawCircle(const RECT& _rc)
 {
 	Ellipse(pRenderManager->hBackBufferDC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+}
+
+void RenderManager::DrawCircle(const RECT& _rc, COLORREF _innerColor, COLORREF _outlineColor)
+{
+	HBRUSH hBrush = CreateSolidBrush(_innerColor);
+	HPEN hPen = CreatePen(PS_SOLID, 1, _outlineColor);
+	HGDIOBJ oldBrush = SelectObject(pRenderManager->hBackBufferDC, hBrush);
+	HGDIOBJ oldPen = SelectObject(pRenderManager->hBackBufferDC, hPen);
+	Ellipse(pRenderManager->hBackBufferDC, _rc.left, _rc.top, _rc.right, _rc.bottom);
+	SelectObject(pRenderManager->hBackBufferDC, oldBrush);
+	SelectObject(pRenderManager->hBackBufferDC, oldPen);
+	DeleteObject(hBrush);
+	DeleteObject(hPen);
 }
 
 void RenderManager::DrawString(const WCHAR* _str, int _x, int _y)

@@ -4,18 +4,7 @@
 #include "Transform.h"
 #include <xmemory>
 #include"GameObject.h"
-RECT CreateSimpleCollider(const std::vector<RECT>& colliders)
-{
-	RECT res{ 0,0,0,0 };
-	for (const RECT& rc : colliders)
-	{
-		res.left = (res.left > rc.left) ? rc.left : res.left;
-		res.top = (res.top > rc.top) ? rc.top : res.top;
-		res.right = (res.right <  rc.right) ? rc.right : res.right;
-		res.bottom = (res.bottom < rc.bottom) ? rc.bottom : res.bottom;
-	}
-	return res;
-}
+
 Bullet::Bullet()
 {
 	type = ObjectType::BULLET;
@@ -55,15 +44,14 @@ void Bullet::OnCollision(const CollisionEvent& event)
 {
 	if (event.other->type != ObjectType::BULLET)
 	{
-		if (isAlias && event.other->type == ObjectType::MONSTER)
+		if (event.other->type == ObjectType::MONSTER && this->isAlias == true)
 		{
 			ObjectManager::DeleteObject(this);
 		}
-		else if(!isAlias && event.other->type == ObjectType::PLAYER)
+		if (event.other->type == ObjectType::PLAYER && this->isAlias == false)
 		{
 			ObjectManager::DeleteObject(this);
 		}
-		
 	}
 }
 
@@ -143,16 +131,16 @@ void Bullet03::Update()
 }
 void Bullet01::Render()
 {
-	RenderManager::DrawCircle(RECT{ - 6, - 4, 6, 4 } + position);
+	RenderManager::DrawCircle(RECT{ -6, -4, 6, 4 } +position, RGB(255, 130, 0), RGB(255, 0, 0));
 }
 void Bullet02::Render()
 {
-	RenderManager::DrawCircle(RECT{ -4, -4, 4, 4 } + position);
+	RenderManager::DrawCircle(RECT{ -4, -4, 4, 4 } + position, RGB(255, 130, 0), RGB(255, 0, 0));
 }
 
 void Bullet03::Render()
 {
-	RenderManager::DrawCircle(RECT{ -8, -8, 8, 8 } + position);
+	RenderManager::DrawCircle(RECT{ -8, -8, 8, 8 } + position, RGB(255, 130, 0), RGB(255, 0, 0));
 }
 
 Bullet04::Bullet04()
@@ -170,5 +158,5 @@ void Bullet04::Update()
 
 void Bullet04::Render()
 {
-	RenderManager::DrawCircle(RECT{ -30, -5, 30, 5 } +position);
+	RenderManager::DrawCircle(RECT{ -30, -5, 30, 5 } +position, RGB(100, 200, 255), RGB(0, 0, 255));
 }

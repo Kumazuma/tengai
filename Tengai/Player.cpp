@@ -10,7 +10,7 @@ Player::Player()
 	height = 50;
 	type = ObjectType::PLAYER;
 	simpleCollider = { -25,-25,25,25 };
-	colliders.push_back({ -25,-25,25,25 });
+	colliders.push_back(simpleCollider);
 	Bind(EventId::COLLISION_OBJ, &Player::OnCollision);
 }
 
@@ -73,7 +73,7 @@ void Player::Update()
 
 void Player::Render()
 {
-	RenderManager::DrawRect(simpleCollider + position);
+	RenderManager::DrawSimpleCollider(simpleCollider + position, RGB(0, 200, 0));
 }
 
 void Player::OnCollision(const CollisionEvent& event)

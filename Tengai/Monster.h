@@ -1,7 +1,8 @@
 #pragma once
 #include "Character.h"
 #include "CharacterState.h"
-enum MonsterType
+#include <vector>
+enum class MonsterType
 {
 	NONE = 0,
 	MOB01,
@@ -16,18 +17,17 @@ class Monster :
 	//method
 public:
 	Monster();
-	~Monster() = default;
+	void Initialize(MonsterType monsterType, const Transform& firstPos);
+	~Monster();
 	void Update() override;
 	void Render() override;
 	//variable
 public:
+	RECT monsterRect;
 	MonsterType monsterType;
-	ICharacterState* pState;
-	BezierCurveMoveToState initState;
-	WaitState waitState;
-	BezierCurveMoveToState moveUpState;
-	WaitState waitState2;
-	BezierCurveMoveToState moveDownState;
-	FlowerFireState fireState;
+	CharacterState* currentFireState;
+	CharacterState* currentMoveState;
+	std::vector<CharacterState*> moveStateList;
+	std::vector<CharacterState*> fireStateList;
 };
 
