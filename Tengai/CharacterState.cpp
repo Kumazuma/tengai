@@ -148,9 +148,9 @@ ICharacterState* FlowerFireState::Update()
 	if (tick >= interval)
 	{
 		//사격
-		for (int i = 0; i < 50; ++i)
+		for (int i = 0; i < 100; ++i)
 		{
-			const float radian = 3.141592f * i * 16.f / 180;
+			const float radian = PI * i * 16.f / 180;
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
 			MetaBullet::Initialize(bullet, BulletType::_01, pCharacter->position, radian, false);
 		}
@@ -170,9 +170,9 @@ ICharacterState* FlowerCurvesFireState::Update()
 	if (tick >= interval)
 	{
 		//사격
-		for (int i = 0; i < 23; ++i)
+		for (int i = 0; i < 15; ++i)
 		{
-			const float radian = 3.141592f * i * 16.f / 180;
+			const float radian = PI * i * 16.f / 180;
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
 			MetaBullet::Initialize(bullet, BulletType::_02, pCharacter->position, radian, false);
 		}

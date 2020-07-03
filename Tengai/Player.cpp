@@ -1,14 +1,16 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Bullet.h"
 
 Player::Player()
 {
-	position = { 100, 100 };
-	speed = 5;
-	width = 100;
-	height = 100;
-	simpleCollider = { 0,0,100,100 };
-	colliders.push_back({ 0,0,100,100 });
+	position = { 50, 50 };
+	speed = 250;
+	width = 50;
+	height = 50;
+	type = ObjectType::PLAYER;
+	simpleCollider = { -25,-25,25,25 };
+	colliders.push_back({ -25,-25,25,25 });
 	Bind(EventId::COLLISION_OBJ, &Player::OnCollision);
 }
 
@@ -19,30 +21,61 @@ Player::~Player()
 
 void Player::Update()
 {
-	if (InputManager::GetKey(VK_UP))
-	{
-		position.y -= speed;
-	}
-	if (InputManager::GetKey(VK_DOWN))
-	{
-		position.y += speed;
-	}
 	if (InputManager::GetKey(VK_LEFT))
 	{
-		position.x -= speed;
+		if (InputManager::GetKey(VK_UP))
+		{
+			Move(Direction::LEFT_UP);
+		}
+		else if(InputManager::GetKey(VK_DOWN))
+		{
+			Move(Direction::LEFT_DOWN);
+		}
+		else
+		{
+			Move(Direction::LEFT);
+		}
 	}
-	if (InputManager::GetKey(VK_RIGHT))
+	else if (InputManager::GetKey(VK_RIGHT))
 	{
-		position.x += speed;
+		if (InputManager::GetKey(VK_UP))
+		{
+			Move(Direction::RIGHT_UP);
+		}
+		else if (InputManager::GetKey(VK_DOWN))
+		{
+			Move(Direction::RIGHT_DOWN);
+		}
+		else
+		{
+			Move(Direction::RIGHT);
+		}
+	}
+	else if (InputManager::GetKey(VK_UP))
+	{
+		Move(Direction::UP);
+	}
+	else if (InputManager::GetKey(VK_DOWN))
+	{
+		Move(Direction::DOWN);
 	}
 
+	if (InputManager::GetKey('A'))
+	{
+		Fire();
+	}
+
+	if (leftTime > 0)
+	{
+		leftTime -= TimeManager::DeltaTime();
+	}
 }
 
 void Player::Render()
 {
-	RenderManager::DrawRect(RECT{ 0,0 ,width,height } + position);
+	RenderManager::DrawRect(simpleCollider + position);
 }
-#include "Bullet.h"
+
 void Player::OnCollision(const CollisionEvent& event)
 {
 	if (event.other->type == ObjectType::BULLET)
@@ -59,4 +92,66 @@ void Player::OnCollision(const CollisionEvent& event)
 			}
 		}
 	}
+}
+
+void Player::Move(Direction _direction)
+{
+	float _speed = speed * TimeManager::DeltaTime();
+	float _x = position.x;
+	float _y = position.y;
+
+	switch (_direction)
+	{
+	case Direction::UP:
+		position.y -= _speed;
+		break;
+	case Direction::DOWN:
+		position.y += _speed;
+		break;
+	case Direction::LEFT:
+		position.x -= _speed;
+		break;
+	case Direction::RIGHT:
+		position.x += _speed;
+		break;
+	case Direction::LEFT_UP:
+		position.y -= _speed / sqrtf(2.f);
+		position.x -= _speed / sqrtf(2.f);
+		break;
+	case Direction::LEFT_DOWN:
+		position.y += _speed / sqrtf(2.f);
+		position.x -= _speed / sqrtf(2.f);
+		break;
+	case Direction::RIGHT_UP:
+		position.y -= _speed / sqrtf(2.f);
+		position.x += _speed / sqrtf(2.f);
+		break;
+	case Direction::RIGHT_DOWN:
+		position.y += _speed / sqrtf(2.f);
+		position.x += _speed / sqrtf(2.f);
+		break;
+	default:
+		break;
+	}
+
+
+	if (position.x <= 0 || position.x >= WINDOW_WIDTH)
+	{
+		position.x = _x;
+	}
+	if (position.y <= 0 || position.y >= WINDOW_HEIGHT)
+	{
+		position.y = _y;
+	}
+}
+
+void Player::Fire()
+{
+	if (leftTime <= 0)
+	{
+		leftTime = attackCoolTime;
+		GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
+		MetaBullet::Initialize(bullet, BulletType::_04, position, 0, true);
+	}
+	
 }

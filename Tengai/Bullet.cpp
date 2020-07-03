@@ -55,7 +55,15 @@ void Bullet::OnCollision(const CollisionEvent& event)
 {
 	if (event.other->type != ObjectType::BULLET)
 	{
-		ObjectManager::DeleteObject(this);
+		if (isAlias && event.other->type == ObjectType::MONSTER)
+		{
+			ObjectManager::DeleteObject(this);
+		}
+		else if(!isAlias && event.other->type == ObjectType::PLAYER)
+		{
+			ObjectManager::DeleteObject(this);
+		}
+		
 	}
 }
 
@@ -84,6 +92,10 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 	case BulletType::_03:
 		pBullet->~Bullet();
 		new(pBullet) Bullet03{};
+		break;
+	case BulletType::_04:
+		pBullet->~Bullet();
+		new(pBullet) Bullet04{};
 		break;
 	}
 	pBullet->uid = uid;
@@ -120,7 +132,7 @@ void Bullet01::Update()
 }
 void Bullet02::Update()
 {
-	radian += 3.141592f * 0.5f / 180;
+	radian += PI * 0.5f / 180;
 	Move();
 	Bullet::Update();
 }
@@ -141,4 +153,22 @@ void Bullet02::Render()
 void Bullet03::Render()
 {
 	RenderManager::DrawCircle(RECT{ -8, -8, 8, 8 } + position);
+}
+
+Bullet04::Bullet04()
+{
+	hp = 999;
+	speed = 800;
+	colliders.push_back(RECT{ -15,-3,15,3 });
+}
+
+void Bullet04::Update()
+{
+	Move();
+	Bullet::Update();
+}
+
+void Bullet04::Render()
+{
+	RenderManager::DrawCircle(RECT{ -30, -5, 30, 5 } +position);
 }

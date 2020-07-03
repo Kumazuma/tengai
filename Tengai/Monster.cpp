@@ -13,6 +13,9 @@ Monster::Monster() :
 	this->type = ObjectType::MONSTER;
 	this->pState = &initState;
 	this->speed = 100;
+	this->simpleCollider = { -25,-25,25,25 };
+	this->colliders.push_back(this->simpleCollider);
+
 	initState.pNextState = &waitState;
 	waitState.pNextState = &moveUpState;
 	moveUpState.pNextState = &waitState2;
@@ -34,5 +37,5 @@ void Monster::Update()
 
 void Monster::Render()
 {
-	RenderManager::DrawCircle(RECT{ 0, 0, 20, 20 } + position);
+	RenderManager::DrawCircle(simpleCollider + position);
 }

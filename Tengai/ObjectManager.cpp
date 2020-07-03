@@ -182,7 +182,13 @@ void ObjectManager::Render()
 	}
 
 	TimeManager::RenderFPS();
-	WCHAR wstr[8];
-	wsprintf(wstr, L"%d", pObjectManager->objectList.size());
-	RenderManager::DrawString(wstr, WINDOW_WIDTH - 100, 0);
+	ObjectManager::RenderBulletCount();
+}
+
+void ObjectManager::RenderBulletCount()
+{
+	auto& bulletList = pObjectManager->objectTable[(int)ObjectType::BULLET];
+	WCHAR wstr[32];
+	wsprintf(wstr, L"BulletCount : %d", bulletList.size());
+	RenderManager::DrawString(wstr, WINDOW_WIDTH - 130, 0);
 }

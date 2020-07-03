@@ -23,6 +23,8 @@ public:
 	static void Update();
 	static void LateUpdate();
 	static void Render();
+
+	static void RenderBulletCount();
 	
 	Player* pPlayer = nullptr;
 	list<GameObject*>objectTable[ENUM_MAX<ObjectType>()];
