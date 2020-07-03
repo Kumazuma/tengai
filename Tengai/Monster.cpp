@@ -168,5 +168,5 @@ void Monster::Update()
 
 void Monster::Render()
 {
-	RenderManager::DrawRect(monsterRect + position);
+	RenderManager::DrawSimpleCollider(monsterRect + position, RGB(0, 200, 0));
 }

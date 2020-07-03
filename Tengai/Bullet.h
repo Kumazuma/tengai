@@ -7,6 +7,7 @@ enum class BulletType
 	_01,
 	_02,
 	_03,
+	_04,
 	END
 };
 class MetaBullet
@@ -22,10 +23,11 @@ public:
 	virtual void Update() override;
 	virtual void Move();
 	virtual void Render() override;
+	void OnCollision(const CollisionEvent& event);
+
 	BulletType bulletType;
 	bool isAlias;
 	float radian;
-	void OnCollision(const CollisionEvent& event);
 private:
 
 };
@@ -47,6 +49,13 @@ class Bullet03 : public Bullet
 {
 public:
 	Bullet03();
+	virtual void Update() override;
+	virtual void Render() override;
+};
+class Bullet04 : public Bullet
+{
+public:
+	Bullet04();
 	virtual void Update() override;
 	virtual void Render() override;
 };

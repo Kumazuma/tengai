@@ -81,6 +81,10 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 		pBullet->~Bullet();
 		new(pBullet) Bullet03{};
 		break;
+	case BulletType::_04:
+		pBullet->~Bullet();
+		new(pBullet) Bullet04{};
+		break;
 	}
 	pBullet->uid = uid;
 	pBullet->position = pos;
@@ -116,7 +120,7 @@ void Bullet01::Update()
 }
 void Bullet02::Update()
 {
-	radian += 3.141592f * 0.5f / 180;
+	radian += PI * 0.5f / 180;
 	Move();
 	Bullet::Update();
 }
@@ -127,14 +131,32 @@ void Bullet03::Update()
 }
 void Bullet01::Render()
 {
-	RenderManager::DrawCircle(RECT{ - 6, - 4, 6, 4 } + position);
+	RenderManager::DrawCircle(RECT{ -6, -4, 6, 4 } +position, RGB(255, 130, 0), RGB(255, 0, 0));
 }
 void Bullet02::Render()
 {
-	RenderManager::DrawCircle(RECT{ -4, -4, 4, 4 } + position);
+	RenderManager::DrawCircle(RECT{ -4, -4, 4, 4 } + position, RGB(255, 130, 0), RGB(255, 0, 0));
 }
 
 void Bullet03::Render()
 {
-	RenderManager::DrawCircle(RECT{ -8, -8, 8, 8 } + position);
+	RenderManager::DrawCircle(RECT{ -8, -8, 8, 8 } + position, RGB(255, 130, 0), RGB(255, 0, 0));
+}
+
+Bullet04::Bullet04()
+{
+	hp = 999;
+	speed = 800;
+	colliders.push_back(RECT{ -15,-3,15,3 });
+}
+
+void Bullet04::Update()
+{
+	Move();
+	Bullet::Update();
+}
+
+void Bullet04::Render()
+{
+	RenderManager::DrawCircle(RECT{ -30, -5, 30, 5 } +position, RGB(100, 200, 255), RGB(0, 0, 255));
 }

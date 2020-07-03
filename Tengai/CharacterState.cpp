@@ -168,7 +168,7 @@ bool FlowerFireState::Update()
 		//사격
 		for (int i = 0; i < BULLET_COUNT; ++i)
 		{
-			const float radian = 3.141592f * i *  (360 / BULLET_COUNT) / 180.f;
+			const float radian = PI * i * (360 / BULLET_COUNT) / 180;
 			Transform pos = static_cast<Transform>(Matrix::Translate(center.x, center.y) * Matrix::Rotate(radian) * move);
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
 			MetaBullet::Initialize(bullet, BulletType::_03, pos, radian, false);
@@ -195,7 +195,7 @@ bool FlowerCurvesFireState::Update()
 		//사격
 		for (int i = 0; i < BULLET_COUNT; ++i)
 		{
-			const float radian = 3.141592f * i * (360 / BULLET_COUNT) / 180.f;
+			const float radian = PI * i * (360 / BULLET_COUNT) / 180;
 			Transform pos = static_cast<Transform>(Matrix::Translate(center.x, center.y) * Matrix::Rotate(radian) * move);
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
 			MetaBullet::Initialize(bullet, BulletType::_02, pos, radian, false);

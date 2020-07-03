@@ -1,6 +1,6 @@
 #include "D2DRenderManager.h"
 #include "Define.h"
-#include "stdafx.h"
+#include "stdafx.h"/*
 #pragma comment(lib, "d2d1.lib")
 #pragma comment(lib, "dwrite.lib")
 std::unique_ptr<D2DRenderManager> pInstance{};
@@ -99,4 +99,4 @@ void D2DRenderManager::Clear()
     pInstance->pRenderTarget->BeginDraw();
     pInstance->pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
     pInstance->pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
-}
+}*/
