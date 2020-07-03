@@ -48,8 +48,20 @@ void MainGame::Release()
 
 void MainGame::Run()
 {
+
 	InputManager::Update();
-	ObjectManager::Update();
+	if (pMainGame->isPause)
+	{
+		auto& UIs = ObjectManager::GetInstance()->objectTable[(int)ObjectType::UI];
+		for (auto ui : UIs)
+		{
+			ui->Update();
+		}
+	}
+	else
+	{
+		ObjectManager::Update();
+	}
 	ObjectManager::LateUpdate();
 	EventManager::LateUpdate();
 	if (!TimeManager::SkipFrame())
@@ -58,5 +70,4 @@ void MainGame::Run()
 		ObjectManager::Render();
 		RenderManager::Present();
 	}
-	
 }
