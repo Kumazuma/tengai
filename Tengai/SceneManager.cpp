@@ -61,3 +61,7 @@ void SceneManager::LastUpdate()
 		self.pCurrentScene->Update();
 	}
 }
+
+void SceneManager::Release()
+{
+}

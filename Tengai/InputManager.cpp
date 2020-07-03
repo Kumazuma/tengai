@@ -35,6 +35,12 @@ void InputManager::Update()
 	
 }
 
+void InputManager::Release()
+{
+	delete pInputManager;
+	pInputManager = nullptr;
+}
+
 void InputManager::Clear()
 {
 	memset(pInputManager->keys, 0, RANGE_OF_KEYS);

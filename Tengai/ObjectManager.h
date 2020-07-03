@@ -21,7 +21,7 @@ public:
 	static bool DeleteObject(GameObject* _target);
 	static void DestroyAll();
 	static void DestroyAll(ObjectType _type);
-
+	static void Release();
 	static void Update();
 	static void LateUpdate();
 	static void Render();

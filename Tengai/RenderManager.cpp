@@ -36,6 +36,12 @@ RenderManager * RenderManager::GetInstance()
 	return pRenderManager;
 }
 
+void RenderManager::Release()
+{
+	delete pRenderManager;
+	pRenderManager = nullptr;
+}
+
 void RenderManager::DrawRect(const RECT& _rc)
 {
 	Rectangle(pRenderManager->hBackBufferDC, _rc.left, _rc.top, _rc.right, _rc.bottom);

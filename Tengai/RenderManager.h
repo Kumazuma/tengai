@@ -9,7 +9,7 @@ private:
 
 public:
 	static RenderManager* GetInstance();
-
+	static void Release();
 	static void DrawRect(const RECT& _rc);
 	static void DrawRect(const RECT& _rc, COLORREF _innerColor);
 	static void DrawRect(const RECT& _rc, COLORREF _innerColor, COLORREF _outlineColor);

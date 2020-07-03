@@ -21,6 +21,12 @@ TimeManager* TimeManager::GetInstance()
 	return pTimeManager;
 }
 
+void TimeManager::Release()
+{
+	delete pTimeManager;
+	pTimeManager = nullptr;
+}
+
 void TimeManager::SetFrame(int _framePerSec)
 {
 	if (_framePerSec < 0)return;

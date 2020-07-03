@@ -86,12 +86,17 @@ void EventManager::UnregisterObject(GameObject* const pObject)
 
 void EventManager::Release()
 {
-	auto& _evenQueue = pEventManager->eventQueue;
-	
-	for (auto _eventItem : _evenQueue)
+	if (pEventManager != nullptr)
 	{
-		delete _eventItem.pEvent;
-	}
+		auto& _evenQueue = pEventManager->eventQueue;
 
-	delete pEventManager;
+		for (auto _eventItem : _evenQueue)
+		{
+			delete _eventItem.pEvent;
+		}
+
+		delete pEventManager;
+		pEventManager = nullptr;
+	}
+	
 }

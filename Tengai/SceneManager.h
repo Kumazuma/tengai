@@ -20,7 +20,7 @@ public:
 	static void LoadScene();
 	template<typename SceneT, typename ...ArgT>
 	static void LoadScene(ArgT&& ...args);
-
+	static void Release();
 	IScene* pCurrentScene;
 	IScene* pReadyScene;
 };

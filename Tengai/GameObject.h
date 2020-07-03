@@ -8,8 +8,8 @@ enum class ObjectType
 	MONSTER,
 	PLAYER,
 	BULLET,
+	ITEM,
 	UI,
-	
 	END
 };
 
@@ -27,7 +27,7 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	virtual void OnCollision(const GameObject& _other) {};
-	void Die();
+	virtual void Die();
 
 	Transform position{ 0.f, 0.f };
 	int width = 0;

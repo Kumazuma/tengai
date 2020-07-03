@@ -11,6 +11,7 @@ private:
 public:
 	static InputManager* GetInstance();
 	static void Update();
+	static void Release();
 	static void Clear();
 	// 키 프레스
 	static bool GetKey(int _vkey);

@@ -6,7 +6,7 @@
 #include "Bullet.h"
 #include "PauseBox.h"
 #include "BackGround.h"
-
+#include "item.h"
 ObjectManager* pObjectManager = nullptr;
 int lastUid = 0;
 
@@ -23,6 +23,11 @@ ObjectManager::~ObjectManager()
 {
 	PauseBox::Release();
 	BackGround::Release();
+	for (auto it : pObjectManager->objectList)
+	{
+		delete it;
+	}
+	pObjectManager->objectList.clear();
 }
 
 ObjectManager * ObjectManager::GetInstance()
@@ -54,6 +59,9 @@ GameObject * ObjectManager::CreateObject(ObjectType _type)
 	}
 	case ObjectType::BULLET:
 		pObj = pObjectManager->bulletPool.Alloc();
+		break;
+	case ObjectType::ITEM:
+		pObj = new Item{};
 		break;
 	case ObjectType::UI:
 		pObj = new UI();
@@ -101,6 +109,12 @@ void ObjectManager::DestroyAll(ObjectType _type)
 	{
 		iter->Die();
 	}
+}
+
+void ObjectManager::Release()
+{
+	delete pObjectManager;
+	pObjectManager = nullptr;
 }
 
 void ObjectManager::Update()

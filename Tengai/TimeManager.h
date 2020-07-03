@@ -7,6 +7,7 @@ private:
 
 public:
 	static TimeManager* GetInstance();
+	static void Release();
 	static void SetFrame(int _framePerSec);
 	static bool SkipFrame();
 	static float DeltaTime();

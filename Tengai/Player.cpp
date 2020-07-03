@@ -8,6 +8,7 @@ Player::Player()
 	speed = 250;
 	width = 30;
 	height = 30;
+	hp = 3;
 	type = ObjectType::PLAYER;
 	simpleCollider = { -15,-15,15,15 };
 	colliders.push_back(simpleCollider);
@@ -93,10 +94,9 @@ void Player::OnCollision(const CollisionEvent& event)
 		{
 			//나는 맞았다.
 			--hp;
-			if (hp == 0)
+			if (hp <= 0)
 			{
 				Die();
-				
 			}
 		}
 	}
@@ -162,4 +162,11 @@ void Player::Fire()
 		MetaBullet::Initialize(bullet, BulletType::_04, position, 0, true);
 	}
 	
+}
+
+void Player::Die()
+{
+	GameObject::Die();
+	//TODO:임시처리
+	MainGame::Pause();
 }

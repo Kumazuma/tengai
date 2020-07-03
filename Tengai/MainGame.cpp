@@ -41,6 +41,12 @@ void MainGame::Initialize()
 
 void MainGame::Release()
 {
+	SceneManager::Release();
+	EventManager::Release();
+	TimeManager::Release();
+	ObjectManager::Release();
+	RenderManager::Release();
+	InputManager::Release();
 }
 
 void MainGame::Run()
