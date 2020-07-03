@@ -6,6 +6,8 @@
 using namespace std;
 
 class Player;
+class PauseBox;
+class BackGround;
 
 class ObjectManager
 {
@@ -27,6 +29,9 @@ public:
 	static void RenderBulletCount();
 	
 	Player* pPlayer = nullptr;
+	PauseBox* pPauseUI = nullptr;
+	BackGround* pBG = nullptr;
+
 	list<GameObject*>objectTable[ENUM_MAX<ObjectType>()];
 	list<GameObject*>objectList;
 	MemoryPool<Bullet> bulletPool;

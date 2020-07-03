@@ -9,7 +9,7 @@ enum class ObjectType
 	PLAYER,
 	BULLET,
 	UI,
-
+	
 	END
 };
 
@@ -36,6 +36,8 @@ public:
 	ObjectType type = ObjectType::NONE;
 	bool isDead = false;
 	int uid = 0;
+	bool isEnable = true;
+	bool isVisible = true;
 	//이벤트 핸들링을 위한 핸들러 테이블과 그 함수들...
 	void HandleEvent(const Event& _event);
 	template<typename _DerivedClass, typename _EventT>

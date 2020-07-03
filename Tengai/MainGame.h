@@ -13,8 +13,9 @@ public:
 	static void Initialize();
 	static void Release();
 	static void Run();
-	//TODO: Pause
-	//TODO: Resume
+	static void Pause();
+	static void Resume();
+	static void Shutdown();
 
 private:
 	bool isShutdown = false;

@@ -4,18 +4,25 @@
 #include "Monster.h"
 #include "UI.h"
 #include "Bullet.h"
+#include "PauseBox.h"
+#include "BackGround.h"
 
 ObjectManager* pObjectManager = nullptr;
 int lastUid = 0;
 
 ObjectManager::ObjectManager()
 {
-	
+	pPauseUI = PauseBox::GetInstance();
+	pBG = BackGround::GetInstance();
+
+	pPauseUI->uid = ++lastUid;
+	pBG->uid = ++lastUid;
 }
 
 ObjectManager::~ObjectManager()
 {
-
+	PauseBox::Release();
+	BackGround::Release();
 }
 
 ObjectManager * ObjectManager::GetInstance()
@@ -172,6 +179,9 @@ void ObjectManager::LateUpdate()
 
 void ObjectManager::Render()
 {
+	// 백그라운드 (최하위)
+	BackGround::GetInstance()->Render();
+
 	auto& objTable = pObjectManager->objectTable;
 	for (auto& objList : objTable)
 	{
@@ -181,14 +191,18 @@ void ObjectManager::Render()
 		}
 	}
 
+	// 디버그용
 	TimeManager::RenderFPS();
 	ObjectManager::RenderBulletCount();
+
+	// 퍼즈박스 (최상위 렌더)
+	PauseBox::GetInstance()->Render();
 }
 
 void ObjectManager::RenderBulletCount()
 {
 	auto& bulletList = pObjectManager->objectTable[(int)ObjectType::BULLET];
 	WCHAR wstr[32];
-	wsprintf(wstr, L"BulletCount : %d", bulletList.size());
+	wsprintf(wstr, L"BulletCount : %d", (int)bulletList.size());
 	RenderManager::DrawString(wstr, WINDOW_WIDTH - 130, 0);
 }

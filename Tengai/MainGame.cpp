@@ -4,6 +4,7 @@
 #include "RenderManager.h"
 #include "EventManager.h"
 #include "Monster.h"
+#include "PauseBox.h"
 MainGame* pMainGame = nullptr;
 
 MainGame::MainGame()
@@ -52,11 +53,7 @@ void MainGame::Run()
 	InputManager::Update();
 	if (pMainGame->isPause)
 	{
-		auto& UIs = ObjectManager::GetInstance()->objectTable[(int)ObjectType::UI];
-		for (auto ui : UIs)
-		{
-			ui->Update();
-		}
+		PauseBox::GetInstance()->Update();
 	}
 	else
 	{
@@ -68,6 +65,24 @@ void MainGame::Run()
 	{
 		RenderManager::Clear();
 		ObjectManager::Render();
+		PauseBox::GetInstance()->Render();
 		RenderManager::Present();
 	}
+}
+
+void MainGame::Pause()
+{
+	pMainGame->isPause = true;
+	PauseBox::Show();
+}
+
+void MainGame::Resume()
+{
+	pMainGame->isPause = false;
+	PauseBox::Hide();
+}
+
+void MainGame::Shutdown()
+{
+	PostQuitMessage(0);
 }
