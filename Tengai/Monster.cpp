@@ -3,23 +3,10 @@
 #include "RenderManager.h"
 
 Monster::Monster() 
-	//initState{ this, Transform{400, -100} , Transform{450, 300 } , Transform{400, 500} },
-	//moveDownState{ this, Transform{400, 100} , Transform{550, 200 } , Transform{400, 500} },
-	//moveUpState{ this, Transform{400, 500} , Transform{250, 200 } , Transform{400, 100} },
-	//waitState{ 50 },
-	//waitState2{ 50 },
-	//fireState{this, 0.5f}
 {
 	this->type = ObjectType::MONSTER;
-	//this->pState = &initState;
-	//initState.pNextState = &waitState;
-	//waitState.pNextState = &moveUpState;
-	//moveUpState.pNextState = &waitState2;
-	//waitState2.pNextState = &moveDownState;
-	//moveDownState.pNextState = &waitState;
 	currentFireState = nullptr;
 	currentMoveState = nullptr;
-	
 }
 //우선 클리어
 void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
@@ -181,13 +168,5 @@ void Monster::Update()
 
 void Monster::Render()
 {
-	std::list<GameObject*> objs[ENUM_MAX<ObjectType>()];
-	for (auto& objList : ObjectManager::GetInstance()->objectList)
-	{
-		for (auto obj : objList)
-		{
-			obj
-		}
-	}
 	RenderManager::DrawRect(monsterRect + position);
 }

@@ -42,6 +42,7 @@ public:
 	void Bind(EventId _id, void(_DerivedClass::* _handler)(const _EventT&));
 	void _Bind(EventId _id, EventHandler _handler);
 	EventHandler handlerTable[ENUM_MAX<EventId>()]{};
+	std::vector<Event*> eventQueue;
 };
 template<typename _DerivedClass, typename _EventT>
 void GameObject::Bind(EventId _id, void(_DerivedClass::* _handler)(const _EventT&))

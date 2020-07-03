@@ -58,4 +58,5 @@ void MainGame::Run()
 		ObjectManager::Render();
 		RenderManager::Present();
 	}
+	
 }

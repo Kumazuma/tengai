@@ -2,6 +2,7 @@
 #include"EventManager.h"
 #include"event.h"
 #include"ObjectManager.h"
+
 EventManager* pEventManager = nullptr;
 EventManager::EventManager():
 	eventQueue{}
@@ -10,6 +11,12 @@ EventManager::EventManager():
 void EventManager::Broadcast(Event* _pEvent, ObjectType _type, int _uid)
 {
 	pEventManager->eventQueue.push_back({ _pEvent, _uid , _type });
+	pEventManager->events.push_back(_pEvent);
+}
+void EventManager::Broadcast(GameObject* const obj, Event* _pEvent)
+{
+	obj->eventQueue.push_back(_pEvent);
+	pEventManager->events.push_back(_pEvent);
 }
 EventManager* EventManager::GetInstance()
 {
@@ -28,24 +35,44 @@ void EventManager::Initialize()
 void EventManager::LateUpdate()
 {
 	auto& _evenQueue = pEventManager->eventQueue;
-	auto& _objects = ObjectManager::GetInstance()->objectList;
-	for (auto it : _objects)
+	for (auto obj : ObjectManager::GetInstance()->objectTable[(int)ObjectType::BULLET])
 	{
-		for (auto _eventItem : _evenQueue)
+		for (auto event : obj->eventQueue)
 		{
-			bool cond = _eventItem.objectUid == 0 || (it->uid == _eventItem.objectUid);
-
-			if (it->type == _eventItem.objectType && cond)
-			{
-				it->HandleEvent(*_eventItem.pEvent);
-			}
+			obj->HandleEvent(*event);
 		}
+		obj->eventQueue.clear();
+	}
+	for (auto obj : ObjectManager::GetInstance()->objectTable[(int)ObjectType::MONSTER])
+	{
+		for (auto event : obj->eventQueue)
+		{
+			obj->HandleEvent(*event);
+		}
+		obj->eventQueue.clear();
+	}
+	for (auto obj : ObjectManager::GetInstance()->objectTable[(int)ObjectType::PLAYER])
+	{
+		for (auto event : obj->eventQueue)
+		{
+			obj->HandleEvent(*event);
+		}
+		obj->eventQueue.clear();
 	}
 	for (auto _eventItem : _evenQueue)
 	{
-		delete _eventItem.pEvent;
+		auto& objs = ObjectManager::GetInstance()->objectTable[(int)_eventItem.objectType];
+		for (auto it : objs)
+		{
+			it->HandleEvent(*_eventItem.pEvent);
+		}
+	}
+	for (auto _eventItem : pEventManager->events)
+	{
+		delete _eventItem;
 	}
 	_evenQueue.clear();
+	pEventManager->events.clear();
 }
 
 void EventManager::RegisterObject(GameObject* const pObject)

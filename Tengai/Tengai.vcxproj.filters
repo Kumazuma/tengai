@@ -93,6 +93,9 @@
     <ClInclude Include="MemoryPool.h">
       <Filter>DataStructure</Filter>
     </ClInclude>
+    <ClInclude Include="D2DRenderManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tengai.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="CharacterState.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="D2DRenderManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

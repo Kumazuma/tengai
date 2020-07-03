@@ -1,5 +1,6 @@
 #pragma once
 #include<xmemory>
+#include<DirectXMath.h>
 class Transform
 {
 public:
@@ -27,12 +28,12 @@ inline Transform::Transform(float x, float y) :
 	x{ x },
 	y{ y }
 {
-
+	
 }
 inline Transform::Transform(const Transform& other) :
 	Transform{ other.x, other.y }
 {
-
+	
 }
 inline Transform& Transform::operator=(const Transform& other)
 {

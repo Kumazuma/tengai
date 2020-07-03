@@ -3,6 +3,7 @@
 
 void Character::Update()
 {
+	
 }
 
 void Character::Render()
@@ -27,15 +28,15 @@ bool Character::Collision(const GameObject* _target)
 		return false;
 	}
 
-	for (RECT collider : colliders)
+	for (const RECT& collider : colliders)
 	{
-		collider = collider + position;
+		auto relativedCollider = collider + position;
 
-		for (RECT targetCollider : target->colliders)
+		for (const RECT& targetCollider : target->colliders)
 		{
-			targetCollider = targetCollider + target->position;
+			auto relativedTargetCollider = targetCollider + target->position;
 
-			if (IntersectRect(&outBox, &collider, &targetCollider))
+			if (IntersectRect(&outBox, &relativedCollider, &relativedTargetCollider))
 			{
 				return true;
 			}

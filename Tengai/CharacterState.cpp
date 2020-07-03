@@ -160,12 +160,18 @@ bool FlowerFireState::Update()
 {
 	if (tick >= interval)
 	{
+		Transform leftTop{ (float)pCharacter->simpleCollider.left, (float)pCharacter->simpleCollider.top };
+		float length = leftTop.Length();
+		auto move = Matrix::Translate(length, 0);
+		const Transform& center = pCharacter->position;
+		constexpr int BULLET_COUNT = 22;
 		//사격
-		for (int i = 0; i < 50; ++i)
+		for (int i = 0; i < BULLET_COUNT; ++i)
 		{
-			const float radian = 3.141592f * i * 16.f / 180;
+			const float radian = 3.141592f * i *  (360 / BULLET_COUNT) / 180.f;
+			Transform pos = static_cast<Transform>(Matrix::Translate(center.x, center.y) * Matrix::Rotate(radian) * move);
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
-			MetaBullet::Initialize(bullet, BulletType::_03, pCharacter->position, radian, false);
+			MetaBullet::Initialize(bullet, BulletType::_03, pos, radian, false);
 		}
 		tick -= interval;
 	}
@@ -181,12 +187,18 @@ bool FlowerCurvesFireState::Update()
 {
 	if (tick >= interval)
 	{
+		Transform leftTop{ (float)pCharacter->simpleCollider.left, (float)pCharacter->simpleCollider.top };
+		float length = leftTop.Length();
+		auto move = Matrix::Translate(length, 0);
+		const Transform& center = pCharacter->position;
+		constexpr int BULLET_COUNT = 22;
 		//사격
-		for (int i = 0; i < 23; ++i)
+		for (int i = 0; i < BULLET_COUNT; ++i)
 		{
-			const float radian = 3.141592f * i * 16.f / 180;
+			const float radian = 3.141592f * i * (360 / BULLET_COUNT) / 180.f;
+			Transform pos = static_cast<Transform>(Matrix::Translate(center.x, center.y) * Matrix::Rotate(radian) * move);
 			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
-			MetaBullet::Initialize(bullet, BulletType::_02, pCharacter->position, radian, false);
+			MetaBullet::Initialize(bullet, BulletType::_02, pos, radian, false);
 		}
 		tick -= interval;
 	}
