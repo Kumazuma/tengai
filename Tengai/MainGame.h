@@ -16,9 +16,9 @@ public:
 	static void Pause();
 	static void Resume();
 	static void Shutdown();
-
+	bool isPause = false;
 private:
 	bool isShutdown = false;
-	bool isPause = false;
+	
 };
 

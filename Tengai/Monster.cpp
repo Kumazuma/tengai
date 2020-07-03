@@ -24,6 +24,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 	Bind(EventId::PASS_TIME, &Monster::OnShow);
 	Bind(EventId::COLLISION_OBJ, &Monster::OnCollision);
 	position = firstPos;
+	isEnable = false;
 	for (auto it : fireStateList)
 	{
 		delete it;
@@ -154,7 +155,7 @@ Monster::~Monster()
 
 void Monster::Update()
 {
-	if (isShow == false)
+	if (isEnable == false)
 	{
 		return;
 	}
@@ -191,12 +192,12 @@ void Monster::Render()
 
 void Monster::OnShow(const Event&)
 {
-	isShow = true;
+	isEnable = true;
 }
 
 void Monster::OnCollision(const CollisionEvent& event)
 {
-	if (event.other->type == ObjectType::BULLET && this->isShow)
+	if (event.other->type == ObjectType::BULLET && this->isEnable)
 	{
 		const Bullet* const pBullet = (const Bullet*) event.other;
 		hp -= pBullet->isAlias;

@@ -26,7 +26,6 @@ public:
 	void OnCollision(const CollisionEvent& event);
 	//variable
 public:
-	bool isShow = false;
 	RECT monsterRect;
 	MonsterType monsterType;
 	CharacterState* currentFireState;

@@ -64,6 +64,7 @@ void MainGame::Run()
 		PauseBox::GetInstance()->Render();
 		RenderManager::Present();
 	}
+	SceneManager::LastUpdate();
 }
 
 void MainGame::Pause()
