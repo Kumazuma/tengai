@@ -8,6 +8,8 @@ enum class BulletType
 	_02,
 	_03,
 	_04,
+	_05,
+
 	END
 };
 class MetaBullet
@@ -56,6 +58,13 @@ class Bullet04 : public Bullet
 {
 public:
 	Bullet04();
+	virtual void Update() override;
+	virtual void Render() override;
+};
+class Bullet05 : public Bullet
+{
+public:
+	Bullet05();
 	virtual void Update() override;
 	virtual void Render() override;
 };
