@@ -72,10 +72,18 @@ void Player::Update()
 	{
 		Fire();
 	}
+	if (InputManager::GetKey('S'))
+	{
+		Fire2();
+	}
 
 	if (leftTime > 0)
 	{
 		leftTime -= TimeManager::DeltaTime();
+	}
+	if (leftTime2 > 0)
+	{
+		leftTime2 -= TimeManager::DeltaTime();
 	}
 }
 
@@ -162,4 +170,14 @@ void Player::Fire()
 		MetaBullet::Initialize(bullet, BulletType::_04, position, 0, true);
 	}
 	
+}
+
+void Player::Fire2()
+{
+	if (leftTime2 <= 0)
+	{
+		leftTime2 = attackCoolTime2;
+		GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
+		MetaBullet::Initialize(bullet, BulletType::_05, position, 1.5f, true);
+	}
 }

@@ -14,9 +14,12 @@ public:
 
 	void Move(Direction _direction);
 	void Fire();
+	void Fire2();
 
 private:
 	float attackCoolTime = 0.15f;
 	float leftTime = 0;
+	float attackCoolTime2 = 0.15f;
+	float leftTime2 = 0;
 };
 
