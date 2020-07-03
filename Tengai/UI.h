@@ -8,5 +8,6 @@ public:
 	virtual void Render() override;
 
 	RECT area;
+	COLORREF color = RGB(255, 255, 255);
 };
 

@@ -5,6 +5,7 @@
 #include "EventManager.h"
 #include "Monster.h"
 #include "PauseBox.h"
+#include "BackGround.h"
 #include "TestPlayScene.h"
 MainGame* pMainGame = nullptr;
 
@@ -66,6 +67,7 @@ void MainGame::Run()
 	if (!TimeManager::SkipFrame())
 	{
 		RenderManager::Clear();
+		BackGround::GetInstance()->Render();
 		ObjectManager::Render();
 		PauseBox::GetInstance()->Render();
 		RenderManager::Present();

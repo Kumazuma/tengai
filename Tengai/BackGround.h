@@ -12,7 +12,24 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
+};
 
+class Cloud : public UI
+{
+public:
+	Cloud();
+	virtual ~Cloud();
+	virtual void Update() override;
+	virtual void Render() override;
+	
+};
 
+class Tree : public UI
+{
+public:
+	Tree();
+	virtual ~Tree();
+	virtual void Update() override;
+	virtual void Render() override;
 };
 
