@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Monster.h"
 #include "RenderManager.h"
-
+#include "item.h"
 Monster::Monster() 
 {
 	this->type = ObjectType::MONSTER;
@@ -204,6 +204,18 @@ void Monster::OnCollision(const CollisionEvent& event)
 		if (hp <= 0)
 		{
 			Die();
+			//아이템을 생성한다.
+			ItemType itemType = ItemType::NONE;
+			switch (rand() % 2)
+			{
+			case 0:
+				itemType = ItemType::HEAL;
+				break;
+			case 1:
+				itemType = ItemType::SKILL;
+				break;
+			}
+			Item::Initialize(ObjectManager::CreateObject(ObjectType::ITEM), itemType, position);
 		}
 	}
 }

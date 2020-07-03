@@ -25,7 +25,15 @@ ObjectManager::~ObjectManager()
 	BackGround::Release();
 	for (auto it : pObjectManager->objectList)
 	{
-		delete it;
+		if (it->type != ObjectType::BULLET)
+		{
+			delete it;
+		}
+		else
+		{
+			this->bulletPool.Free((Bullet*)it);
+		}
+		
 	}
 	pObjectManager->objectList.clear();
 }

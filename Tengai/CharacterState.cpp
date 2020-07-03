@@ -225,3 +225,47 @@ CharacterState::CharacterState():
 	pNextState{nullptr}
 {
 }
+
+PlayerBasicAttackState::PlayerBasicAttackState(Character* pCharacter, float _interval, float _time):
+	FireState{pCharacter, _interval, _time}
+{
+
+}
+
+
+PlayerAdditionalAttackState::PlayerAdditionalAttackState(Character* pCharacter, float _interval, float _time):
+	PlayerBasicAttackState{ pCharacter, _interval, _time }
+{
+	
+}
+bool PlayerBasicAttackState::Update()
+{
+
+	// °ø°ÝÅ°
+	if (InputManager::GetKey('A'))
+	{
+		if (tick >= interval)
+		{
+			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
+			MetaBullet::Initialize(bullet, BulletType::_04, pCharacter->position, 0, true);
+			tick = 0;
+		}
+		
+	}
+	FireState::Update();
+	return false;
+}
+
+bool PlayerAdditionalAttackState::Update()
+{
+	if (InputManager::GetKey('A'))
+	{
+		if (tick >= interval)
+		{
+			GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
+			MetaBullet::Initialize(bullet, BulletType::_05, pCharacter->position, 1.5f, true);
+		}
+	}
+	PlayerBasicAttackState::Update();
+	return false;
+}

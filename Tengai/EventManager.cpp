@@ -59,6 +59,14 @@ void EventManager::LateUpdate()
 		}
 		obj->eventQueue.clear();
 	}
+	for (auto obj : ObjectManager::GetInstance()->objectTable[(int)ObjectType::ITEM])
+	{
+		for (auto event : obj->eventQueue)
+		{
+			obj->HandleEvent(*event);
+		}
+		obj->eventQueue.clear();
+	}
 	for (auto _eventItem : _evenQueue)
 	{
 		auto& objs = ObjectManager::GetInstance()->objectTable[(int)_eventItem.objectType];
