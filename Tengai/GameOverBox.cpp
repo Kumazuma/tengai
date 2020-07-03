@@ -28,6 +28,7 @@ void GameOverBox::Update()
 
 void GameOverBox::Render()
 {
+	//TODO: ESC키를 누르면 타이틀로 넘어갑니다.
 	if (!isVisible) return;
 	int offset = area.left / 2;
 	RenderManager::DrawRect(area + position, RGB(255, 0, 0));
@@ -36,6 +37,7 @@ void GameOverBox::Render()
 
 void GameOverBox::Show()
 {
+
 	isEnable = true;
 	isVisible = true;
 }
