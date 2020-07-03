@@ -90,3 +90,16 @@ public:
 	FlowerCurvesFireState(Character* pCharacter, float _interval, float _time = 9999.f);
 	bool Update() override;
 };
+//플레이어의 기본 공격
+class PlayerBasicAttackState : public FireState
+{
+public:
+	PlayerBasicAttackState(Character* pCharacter, float _interval, float _time = 9999.f);
+	bool Update() override;
+};
+class PlayerAdditionalAttackState : public PlayerBasicAttackState
+{
+public:
+	PlayerAdditionalAttackState(Character* pCharacter, float _interval, float _time = 9999.f);
+	bool Update() override;
+};

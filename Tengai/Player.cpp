@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Bullet.h"
-
+#include "CharacterState.h"
+#include "item.h"
+#include <type_traits>
 Player::Player()
 {
 	position = { 50, 50 };
@@ -11,6 +13,7 @@ Player::Player()
 	hp = 3;
 	type = ObjectType::PLAYER;
 	simpleCollider = { -15,-15,15,15 };
+	pFireState = new PlayerAdditionalAttackState{ this, 0.15f };
 	colliders.push_back(simpleCollider);
 	Bind(EventId::COLLISION_OBJ, &Player::OnCollision);
 }
@@ -67,25 +70,8 @@ void Player::Update()
 	{
 		Move(Direction::DOWN);
 	}
+	pFireState->Update();
 
-	// 공격키
-	if (InputManager::GetKey('A'))
-	{
-		Fire();
-	}
-	if (InputManager::GetKey('S'))
-	{
-		Fire2();
-	}
-
-	if (leftTime > 0)
-	{
-		leftTime -= TimeManager::DeltaTime();
-	}
-	if (leftTime2 > 0)
-	{
-		leftTime2 -= TimeManager::DeltaTime();
-	}
 }
 
 void Player::Render()
@@ -106,6 +92,39 @@ void Player::OnCollision(const CollisionEvent& event)
 			{
 				Die();
 			}
+			else if(dynamic_cast<PlayerAdditionalAttackState*>(pFireState) != nullptr) {
+				//맞으면 기본 무기로 돌아간다.
+				auto current = pFireState->current;
+				auto interval = pFireState->interval;
+				auto tick = pFireState->tick;
+				auto time = pFireState->time;
+				delete pFireState;
+				pFireState = new PlayerBasicAttackState{ this, interval, time };
+				pFireState->current = current;
+				pFireState->tick = tick;
+			}
+		}
+	}
+	else if (event.other->type == ObjectType::ITEM)
+	{
+		Item* pItem = (Item*)event.other;
+		switch (pItem->itemType)
+		{
+		case ItemType::HEAL:
+			hp += 1;
+			break;
+		case ItemType::SKILL:
+		if(dynamic_cast<PlayerAdditionalAttackState*>(pFireState) == nullptr) {
+			auto current = pFireState->current;
+			auto interval = pFireState->interval;
+			auto tick = pFireState->tick;
+			auto time = pFireState->time;
+			delete pFireState;
+			pFireState = new PlayerAdditionalAttackState{ this, interval, time };
+			pFireState->current = current;
+			pFireState->tick = tick;
+		}
+			break;
 		}
 	}
 }
@@ -160,28 +179,6 @@ void Player::Move(Direction _direction)
 		position.y = _y;
 	}
 }
-
-void Player::Fire()
-{
-	if (leftTime <= 0)
-	{
-		leftTime = attackCoolTime;
-		GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
-		MetaBullet::Initialize(bullet, BulletType::_04, position, 0, true);
-	}
-	
-}
-
-void Player::Fire2()
-{
-	if (leftTime2 <= 0)
-	{
-		leftTime2 = attackCoolTime2;
-		GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
-		MetaBullet::Initialize(bullet, BulletType::_05, position, 1.5f, true);
-	}
-}
-
 void Player::Die()
 {
 	GameObject::Die();
