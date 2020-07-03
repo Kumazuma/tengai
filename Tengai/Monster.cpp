@@ -9,9 +9,22 @@ Monster::Monster()
 	currentMoveState = nullptr;
 }
 //우선 클리어
+GameObject* Monster::Initialize(GameObject* const obj, MonsterType monsterType, const Transform& firstPos)
+{
+	if (obj->type == ObjectType::MONSTER)
+	{
+		Monster* self = static_cast<Monster*>(obj);
+		self->Initialize(monsterType, firstPos);
+	}
+	return obj;
+}
+
 void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 {
-	this->position = firstPos;
+	Bind(EventId::PASS_TIME, &Monster::OnShow);
+	Bind(EventId::COLLISION_OBJ, &Monster::OnCollision);
+	position = firstPos;
+	isEnable = false;
 	for (auto it : fireStateList)
 	{
 		delete it;
@@ -36,7 +49,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 		fireStateList.push_back(
 			new WaitState{ 0.1f });
 		fireStateList.push_back(
-			new FocusOnPlayerFireState{ this ,0.2f, 3.f });
+			new FocusOnPlayerFireState{ this ,0.4f, 3.f });
 		fireStateList.push_back(
 			new WaitState{ 1 });
 		speed = 100;
@@ -47,6 +60,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 		fireStateList[2]->pNextState = fireStateList[0];
 		monsterRect = RECT{ -18, -18, 18, 18 };
 		colliders.push_back(RECT{ -16, -16, 16, 16 });
+		hp = 2;
 	}
 	break;
 	case MonsterType::MOB02:
@@ -64,9 +78,9 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 		fireStateList.push_back(
 			new WaitState{ 0.1f });
 		fireStateList.push_back(
-			new FlowerFireState{ this ,2.f, 6.f });
+			new FlowerFireState{ this ,3.f, 10.f });
 		fireStateList.push_back(
-			new FocusOnPlayerFireState{ this, 0.2f, 3.f });
+			new FocusOnPlayerFireState{ this, 0.4f, 3.f });
 		speed = 100;
 		moveStateList[0]->pNextState = moveStateList[1];
 		moveStateList[1]->pNextState = moveStateList[2];
@@ -78,6 +92,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 
 		monsterRect = RECT{ -28, -28, 28, 28 };
 		colliders.push_back(RECT{ -24, -24, 24, 24 });
+		hp = 10;
 	}
 	break;
 	case MonsterType::BOSS:
@@ -96,11 +111,11 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 		fireStateList.push_back(
 			new FlowerFireState{ this ,2.f, 6.f });
 		fireStateList.push_back(
-			new FocusOnPlayerFireState{ this, 0.2f, 3.f });
+			new FocusOnPlayerFireState{ this, 0.4f, 3.f });
 		fireStateList.push_back(
 			new FlowerCurvesFireState{ this, 0.2f, 3.f });
 		fireStateList.push_back(
-			new FocusOnPlayerFireState{ this, 0.2f, 3.f });
+			new FocusOnPlayerFireState{ this, 0.4f, 3.f });
 		speed = 50;
 		moveStateList[0]->pNextState = moveStateList[1];
 		moveStateList[1]->pNextState = moveStateList[2];
@@ -114,7 +129,7 @@ void Monster::Initialize(MonsterType monsterType, const Transform& firstPos)
 
 		monsterRect = RECT{ -36, -36, 36, 36 };
 		colliders.push_back(RECT{ -32, -32, 32, 32 });
-		
+		hp = 150;
 		break;
 	}
 	simpleCollider = CreateSimpleCollider(colliders);
@@ -140,6 +155,10 @@ Monster::~Monster()
 
 void Monster::Update()
 {
+	if (isEnable == false)
+	{
+		return;
+	}
 	if (currentMoveState != nullptr)
 	{
 		if (currentMoveState->Update())
@@ -169,4 +188,22 @@ void Monster::Update()
 void Monster::Render()
 {
 	RenderManager::DrawSimpleCollider(monsterRect + position, RGB(0, 200, 0));
+}
+
+void Monster::OnShow(const Event&)
+{
+	isEnable = true;
+}
+
+void Monster::OnCollision(const CollisionEvent& event)
+{
+	if (event.other->type == ObjectType::BULLET && this->isEnable)
+	{
+		const Bullet* const pBullet = (const Bullet*) event.other;
+		hp -= pBullet->isAlias;
+		if (hp <= 0)
+		{
+			Die();
+		}
+	}
 }

@@ -6,10 +6,10 @@ Player::Player()
 {
 	position = { 50, 50 };
 	speed = 250;
-	width = 50;
-	height = 50;
+	width = 30;
+	height = 30;
 	type = ObjectType::PLAYER;
-	simpleCollider = { -25,-25,25,25 };
+	simpleCollider = { -15,-15,15,15 };
 	colliders.push_back(simpleCollider);
 	Bind(EventId::COLLISION_OBJ, &Player::OnCollision);
 }

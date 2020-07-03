@@ -100,14 +100,14 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 Bullet01::Bullet01()
 {
 	hp = 999;
-	speed = 100;
+	speed = 150;
 	colliders.push_back(RECT{ -3,-3,3, 3 });
 }
 
 Bullet02::Bullet02()
 {
 	hp = 999;
-	speed = 150;
+	speed = 200;
 	colliders.push_back(RECT{ -3,-3,3, 3 });
 }
 

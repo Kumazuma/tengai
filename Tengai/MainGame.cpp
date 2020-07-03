@@ -5,6 +5,7 @@
 #include "EventManager.h"
 #include "Monster.h"
 #include "PauseBox.h"
+#include "TestPlayScene.h"
 MainGame* pMainGame = nullptr;
 
 MainGame::MainGame()
@@ -34,13 +35,8 @@ void MainGame::Initialize()
 	RenderManager::GetInstance();
 	SceneManager::GetInstance();
 	EventManager::GetInstance();
-	ObjectManager::CreateObject(ObjectType::PLAYER);
-	Monster* pMonster = (Monster *)ObjectManager::CreateObject(ObjectType::MONSTER);
-	pMonster->Initialize(MonsterType::BOSS, { WINDOW_WIDTH, WINDOW_HEIGHT/2 });
-	pMonster = (Monster*)ObjectManager::CreateObject(ObjectType::MONSTER);
-	pMonster->Initialize(MonsterType::MOB02, { WINDOW_WIDTH, WINDOW_HEIGHT/ 3 });
-	pMonster = (Monster*)ObjectManager::CreateObject(ObjectType::MONSTER);
-	pMonster->Initialize(MonsterType::MOB01, { WINDOW_WIDTH, WINDOW_HEIGHT});
+	SceneManager::LoadScene<PlayScene>();
+
 }
 
 void MainGame::Release()
@@ -68,6 +64,7 @@ void MainGame::Run()
 		PauseBox::GetInstance()->Render();
 		RenderManager::Present();
 	}
+	SceneManager::LastUpdate();
 }
 
 void MainGame::Pause()
