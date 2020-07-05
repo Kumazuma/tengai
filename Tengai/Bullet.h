@@ -9,6 +9,7 @@ enum class BulletType
 	_03,
 	_04,
 	_05,
+	_06,
 
 	END
 };
@@ -67,4 +68,12 @@ public:
 	Bullet05();
 	virtual void Update() override;
 	virtual void Render() override;
+};
+class Bullet06 : public Bullet
+{
+public:
+	Bullet06();
+	virtual void Update() override;
+	virtual void Render() override;
+	float radian2 = 0.f;
 };

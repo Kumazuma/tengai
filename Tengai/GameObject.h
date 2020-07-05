@@ -10,6 +10,9 @@ enum class ObjectType
 	BULLET,
 	ITEM,
 	UI,
+	TITLE_UI,
+	PRESSKEY_UI,
+
 	END
 };
 

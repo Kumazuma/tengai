@@ -95,13 +95,15 @@ void Cloud::Render()
 {
 	float radian;
 	Transform pos;
+	COLORREF colorref;
 	for (int i = 0; i < 10; i++)
 	{
 		pos = position;
 		radian = 2.f * PI * i / 10.f;
 		pos.x += 50.f * cosf(radian);
 		pos.y += 20.f * sinf(radian);
-		RenderManager::DrawCircle(area + pos, color, RGB(0,0,0));
+		colorref = RGB(200 + (i * 5), 200 + (i * 5), 200 + (i * 5));
+		RenderManager::DrawCircle(area + pos, colorref, colorref);
 	}
 	
 }

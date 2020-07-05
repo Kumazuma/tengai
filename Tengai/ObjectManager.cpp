@@ -8,6 +8,7 @@
 #include "BackGround.h"
 #include "item.h"
 #include "GameOverBox.h"
+#include "TitleUI.h"
 ObjectManager* pObjectManager = nullptr;
 int lastUid = 0;
 
@@ -78,6 +79,12 @@ GameObject * ObjectManager::CreateObject(ObjectType _type)
 		break;
 	case ObjectType::UI:
 		pObj = new UI();
+		break;
+	case ObjectType::TITLE_UI:
+		pObj = new TitleUI;
+		break;
+	case ObjectType::PRESSKEY_UI:
+		pObj = new PressAnyKeyUI();
 		break;
 	default:
 		return nullptr;

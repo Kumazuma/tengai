@@ -27,8 +27,6 @@ Player::~Player()
 
 void Player::Update()
 {
-	
-
 	// ¹æÇâÅ°
 	if (InputManager::GetKey(VK_LEFT))
 	{
@@ -68,8 +66,20 @@ void Player::Update()
 	{
 		Move(Direction::DOWN);
 	}
-	pFireState->Update();
 
+	if (InputManager::GetKey('S'))
+	{
+		SinWave();
+	}
+	if (InputManager::GetKey('D'))
+	{
+		SpecialMove();
+	}
+
+
+	UpdateSpecialMove();
+	pFireState->Update();
+	
 }
 
 void Player::Render()
@@ -188,5 +198,68 @@ void Player::Die()
 	}
 	ui->Show();
 	MainGame::Pause();
+	
+}
+
+void Player::SinWave()
+{
+	if (sinLeftTime > 0) return;
+	sinLeftTime = sinCoolTime;
+
+	GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
+	MetaBullet::Initialize(bullet, BulletType::_05, this->position, float(PI/2), true);
+}
+
+void Player::SpecialMove()
+{
+	if (leftTime > 0) return;
+	leftTime = coolTime;
+
+	specialMoveFlag = true;
+}
+
+void Player::UpdateSpecialMove()
+{
+	float delta = TimeManager::DeltaTime();
+	if (leftTime > 0)
+	{
+		leftTime -= delta;
+		tick += delta;
+	}
+
+	if (sinLeftTime > 0)
+	{
+		sinLeftTime -= delta;
+	}
+
+
+	if (specialMoveFlag)
+	{
+		if (tick >= interval)
+		{
+			int n = 30;
+			float unit = 2 * PI / n;
+			for (int i = 0; i < n; i++)
+			{
+				float rad = unit * i;
+				GameObject* bullet = ObjectManager::CreateObject(ObjectType::BULLET);
+				MetaBullet::Initialize(bullet, BulletType::_06, this->position, rad, true);
+			}
+			tick -= interval;
+			fireCount++;
+		}
+
+		if (fireCount > 5)
+		{
+			fireCount = 0;
+			tick = 0;
+			specialMoveFlag = false;
+		}
+	}
+
+
+	
+
+	
 	
 }

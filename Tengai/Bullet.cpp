@@ -89,6 +89,10 @@ void MetaBullet::Initialize(GameObject* _pObject, BulletType _type, const Transf
 		pBullet->~Bullet();
 		new(pBullet) Bullet05{};
 		break;
+	case BulletType::_06:
+		pBullet->~Bullet();
+		new(pBullet) Bullet06{};
+		break;
 	}
 	pBullet->uid = uid;
 	pBullet->position = pos;
@@ -174,7 +178,7 @@ Bullet05::Bullet05()
 
 void Bullet05::Update()
 {
-	radian += PI * 1.f * 20.f / 180;
+	radian += PI * 1.f * 15.f / 180;
 	position.x += speed * TimeManager::DeltaTime();
 	position.y += 15.f * sinf(radian);
 	Bullet::Update();
@@ -183,4 +187,28 @@ void Bullet05::Update()
 void Bullet05::Render()
 {
 	RenderManager::DrawCircle(RECT{ -5, -5, 5, 5 } + position, RGB(200, 100, 200), RGB(0, 0, 200));
+}
+
+Bullet06::Bullet06()
+{
+	hp = 999;
+	speed = 200;
+	colliders.push_back(RECT{ -4,-4,4,4 });
+}
+
+void Bullet06::Update()
+{
+	Transform direction;
+	
+	radian2 += PI * 1.f * 15.f / 180;
+	direction.x += cosf(radian) +cosf(radian2);
+	direction.y += sinf(radian) + sinf(radian2);
+	position.x += direction.x * speed * TimeManager::DeltaTime();
+	position.y += direction.y * speed * TimeManager::DeltaTime();
+	Bullet::Update();
+}
+
+void Bullet06::Render()
+{
+	RenderManager::DrawCircle(RECT{ -5, -5, 5, 5 } +position, RGB(200, 100, 200), RGB(0, 0, 200));
 }

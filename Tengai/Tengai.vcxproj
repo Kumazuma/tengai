@@ -181,6 +181,7 @@
     <ClInclude Include="TestPlayScene.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="TitleUI.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
@@ -211,6 +212,7 @@
     <ClCompile Include="TestPlayScene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="TitleUI.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
