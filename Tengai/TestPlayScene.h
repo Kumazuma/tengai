@@ -14,7 +14,7 @@ public:
     virtual bool HideBox() override;
     std::vector<std::pair<float, GameObject*> > timeline;
     std::vector<std::pair<float, GameObject*> >::const_iterator iter;
-    UI* pCurrentShowBox;
+    UI* pCurrentShowBox = nullptr;
     float time;
     float oldTime;
 };

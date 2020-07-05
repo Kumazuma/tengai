@@ -9,6 +9,7 @@ RenderManager::RenderManager()
 	hBitmap = CreateCompatibleBitmap(hdc, WINDOW_WIDTH, WINDOW_HEIGHT);
 	hBackBufferDC = CreateCompatibleDC(hdc);
 	SelectObject(hBackBufferDC, hBitmap);
+	SetBkMode(hBackBufferDC, TRANSPARENT);
 }
 
 RenderManager::~RenderManager()
@@ -99,6 +100,17 @@ void RenderManager::DrawCircle(const RECT& _rc, COLORREF _innerColor, COLORREF _
 void RenderManager::DrawString(const WCHAR* _str, int _x, int _y)
 {
 	TextOutW(pRenderManager->hBackBufferDC, _x, _y, _str, wcslen(_str));
+}
+
+void RenderManager::DrawString(const WCHAR* _str, int _x, int _y, const WCHAR* _font, int _fontSize, COLORREF _color)
+{
+	HFONT hFont = CreateFont(50, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0, VARIABLE_PITCH | FF_ROMAN, _font);
+	HFONT oldFont = (HFONT)SelectObject(pRenderManager->hBackBufferDC, hFont);
+	COLORREF oldColor = SetTextColor(pRenderManager->hBackBufferDC, _color);
+	TextOutW(pRenderManager->hBackBufferDC, _x, _y, _str, wcslen(_str));
+	SelectObject(pRenderManager->hBackBufferDC, oldFont);
+	DeleteObject(hFont);
+	SetTextColor(pRenderManager->hBackBufferDC, oldColor);
 }
 
 void RenderManager::Present()

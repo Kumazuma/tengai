@@ -8,8 +8,6 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
-
-	list<UI*> uis;
 };
 
 class PressAnyKeyUI : public UI
@@ -20,5 +18,9 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
+
+	float tick = 0.f;
+	float interval = 0.5f;
+	bool isRender = false;
 };
 

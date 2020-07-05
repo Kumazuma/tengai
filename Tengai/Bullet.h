@@ -31,6 +31,7 @@ public:
 	BulletType bulletType;
 	bool isAlias;
 	float radian;
+	float radian2 = 0.f;
 private:
 
 };
@@ -75,5 +76,4 @@ public:
 	Bullet06();
 	virtual void Update() override;
 	virtual void Render() override;
-	float radian2 = 0.f;
 };

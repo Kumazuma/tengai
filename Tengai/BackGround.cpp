@@ -84,7 +84,7 @@ void Cloud::Update()
 {
 	position.x -= cloudSpeed * TimeManager::DeltaTime();
 
-	if (position.x < -area.right)
+	if (position.x < -area.right-100)
 	{
 		position.x = WINDOW_WIDTH + 200;
 		position.y = float(100 + rand() % 200);

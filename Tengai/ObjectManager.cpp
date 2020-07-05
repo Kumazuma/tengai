@@ -90,6 +90,7 @@ GameObject * ObjectManager::CreateObject(ObjectType _type)
 		return nullptr;
 	}
 
+	pObj->type = _type;
 	pObj->uid = ++lastUid;
 	pObjectManager->objectTable[(int)_type].push_back(pObj);
 	pObjectManager->objectList.push_back(pObj);

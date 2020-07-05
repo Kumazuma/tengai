@@ -157,8 +157,6 @@ Monster::~Monster()
 
 void Monster::Update()
 {
-	return;
-
 	if (isEnable == false)
 	{
 		return;
