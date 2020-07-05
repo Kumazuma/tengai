@@ -7,7 +7,8 @@
 PlayScene::PlayScene():
     pCurrentShowBox{nullptr}
 {
-
+    time = 0.f;
+    oldTime = 0.0f;
 }
 void PlayScene::OnLoaded()
 {
@@ -109,10 +110,6 @@ bool PlayScene::ShowBox(UI* ptr)
     {
         pCurrentShowBox = ptr;
         return true;
-    }
-    else
-    {
-        ptr->Die();
     }
     return false;
 }

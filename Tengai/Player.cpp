@@ -191,14 +191,12 @@ void Player::Die()
 {
 	GameObject::Die();
 	UI* ui = (UI*)ObjectManager::CreateObject<GameOverBox>(ObjectType::UI);
-	if (SceneManager::GetInstance()->pCurrentScene->ShowBox(ui) == false)
+	SceneManager::GetInstance()->pCurrentScene->HideBox();
+	if (SceneManager::GetInstance()->pCurrentScene->ShowBox(ui) )
 	{
-		SceneManager::GetInstance()->pCurrentScene->HideBox();
-		SceneManager::GetInstance()->pCurrentScene->ShowBox(ui);
+		ui->Show();
+		MainGame::Pause();
 	}
-	ui->Show();
-	MainGame::Pause();
-	
 }
 
 void Player::SinWave()

@@ -117,6 +117,10 @@ bool FocusOnPlayerFireState::Update()
 	{
 		//»ç°Ý
 		const Character* const pPlayer = (Character*) ObjectManager::GetInstance()->pPlayer;
+		if (pPlayer == nullptr)
+		{
+			return FireState::Update();
+		}
 		const Transform dpos = pPlayer->position - pCharacter->position;
 
 		const float radian = atan2f(dpos.y, dpos.x);

@@ -5,24 +5,25 @@
 
 TitleScene::TitleScene()
 {
-	titleUI = ObjectManager::CreateObject(ObjectType::TITLE_UI);
-	pressUI = ObjectManager::CreateObject(ObjectType::PRESSKEY_UI);
+
 }
 
 TitleScene::~TitleScene()
 {
-	ObjectManager::DeleteObject(titleUI);
-	ObjectManager::DeleteObject(pressUI);
+
 }
 
 void TitleScene::OnLoaded()
 {
-	
+	titleUI = ObjectManager::CreateObject(ObjectType::TITLE_UI);
+	pressUI = ObjectManager::CreateObject(ObjectType::PRESSKEY_UI);
+	MainGame::Resume();
 }
 
 void TitleScene::OnUnloaded()
 {
-	
+	ObjectManager::DeleteObject(titleUI);
+	ObjectManager::DeleteObject(pressUI);
 }
 
 void TitleScene::Update()
